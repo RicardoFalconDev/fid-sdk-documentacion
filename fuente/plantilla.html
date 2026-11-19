@@ -440,6 +440,7 @@ footer.docfoot{margin-top:96px;padding-top:24px;border-top:1px solid var(--strok
     <li><div><b>Aplicá la configuración</b><span class="small muted">Cuatro <code>setProperty</code> sobre el contenedor. Si un HEX no es válido se usa el valor por defecto; el SDK no falla.</span></div></li>
     <li><div><b>Verificá con tres marcas</b><span class="small muted">Una azul, una violeta y una clara con texto oscuro. Usá la <a href="#checklist">lista de verificación</a>.</span></div></li>
   </ol>
+  <div class="callout info"><span class="icon icon--filled" aria-hidden="true">smart_toy</span><div><b>Trabajás con IA</b>Dentro de los assets hay archivos pensados para que un agente los tome como contexto: <code>DESIGN.md</code> y <code>tokens.json</code>. Mirá <a href="#recursos">cómo usarlos</a>.</div></div>
 </section>
 
 <!-- ═════ 1 · Playground ═════ -->
@@ -731,6 +732,21 @@ footer.docfoot{margin-top:96px;padding-top:24px;border-top:1px solid var(--strok
     <a class="card" style="text-decoration:none;color:inherit" href="{{LINK_DRIVE}}" target="_blank" rel="noopener"><div class="ico"><span class="icon" aria-hidden="true">folder</span></div><h4>Drive · SDK FID ASSETS</h4><p>El zip del paquete y la carpeta ordenada con CSS, ilustraciones, Lotties, logos y <code>tokens.json</code>.</p></a>
     <a class="card" style="text-decoration:none;color:inherit" href="{{LINK_FIGMA_DOCS}}" target="_blank" rel="noopener"><div class="ico"><span class="icon" aria-hidden="true">palette</span></div><h4>Figma · Variables y documentación</h4><p>La fuente de verdad de los tokens y la documentación completa, con el tablero de pantallas marcadas.</p></a>
   </div>
+  <h3>Para trabajar con IA</h3>
+  <p>El paquete de assets trae archivos pensados para que un asistente o agente de IA los lea como contexto y escriba código del SDK respetando los tokens y las reglas.</p>
+  <div class="cards">
+    <div class="card"><div class="ico"><span class="icon" aria-hidden="true">description</span></div><h4><code>DESIGN.md</code></h4><p>El archivo principal para la IA: qué es un token, las 10 reglas obligatorias, el contrato, el catálogo completo, las recetas de componentes, ilustraciones, íconos, accesibilidad y el checklist final. Se lee completo antes de tocar estilos.</p></div>
+    <div class="card"><div class="ico"><span class="icon" aria-hidden="true">data_object</span></div><h4><code>tokens.json</code></h4><p>Los mismos tokens en JSON (primitivos, semánticos y medidas), con el valor resuelto y a qué referencia cada uno. Marca qué propiedades son configurables. Sirve para herramientas, validaciones y pipelines.</p></div>
+    <div class="card"><div class="ico"><span class="icon" aria-hidden="true">rule</span></div><h4>Reglas y checklist</h4><p>Las reglas y la lista de verificación de este documento son las mismas que trae <code>DESIGN.md</code> (secciones 2 y 10). Se le pueden pedir a la IA como criterio de revisión antes de entregar.</p></div>
+  </div>
+  <h4>Cómo usarlos</h4>
+  <ol class="steps">
+    <li><div><b>Pasale <code>DESIGN.md</code> como contexto</b><span class="small muted">Adjuntalo al prompt o referencialo desde el archivo de instrucciones del proyecto (por ejemplo <code>CLAUDE.md</code> o el equivalente de tu herramienta), para que lo lea al empezar.</span></div></li>
+    <li><div><b>Usá <code>tokens.json</code> para validar</b><span class="small muted">Sirve para comprobar que un token existe antes de usarlo o para buscar en el código valores sueltos que debieron ser tokens.</span></div></li>
+    <li><div><b>Pedile que cierre con el checklist</b><span class="small muted">Que verifique el <a href="#checklist">checklist</a> y que busque en el diff colores literales y primitivos. Tiene que dar 0 resultados en archivos de componentes.</span></div></li>
+  </ol>
+  <div class="callout info"><span class="icon icon--filled" aria-hidden="true">info</span><div><b>Si falta un token</b>La IA no inventa colores: deja un <code>/* TODO: token faltante: … */</code> y avisa. Un color nuevo tiene que ser un paso de una escala existente (regla 4).</div></div>
+
   <h3>Contenido del paquete</h3>
   <div class="tablewrap"><table><thead><tr><th>Archivo</th><th>Para qué</th></tr></thead><tbody>
     <tr><td><code>css/tokens.css</code></td><td>Todos los tokens (primitivos, semánticos, fuente, radios, espaciado, tamaños). <b>Cargar primero.</b></td></tr>
@@ -741,7 +757,7 @@ footer.docfoot{margin-top:96px;padding-top:24px;border-top:1px solid var(--strok
     <tr><td><code>illustrations/</code></td><td><code>ill-onboarding</code>, <code>ill-sms</code>, <code>ill-email</code> (siguen la marca) y <code>error-x</code> (fijo).</td></tr>
     <tr><td><code>lottie/</code></td><td><code>face-scan</code>, <code>card-skeleton</code>, <code>verification</code> (siguen la marca) y <code>success-check</code> (fijo).</td></tr>
     <tr><td><code>fixed/</code></td><td>Logo FID (fijo, no se personaliza).</td></tr>
-    <tr><td><code>tokens.json</code></td><td>Los mismos tokens en JSON, para herramientas y pipelines.</td></tr>
+    <tr><td><code>tokens.json</code></td><td>Los mismos tokens en JSON, para herramientas, validaciones y para que la IA los consulte.</td></tr>
     <tr><td><code>DESIGN.md</code></td><td>Contexto completo para humanos y para agentes de IA: reglas, catálogo, recetas y checklist.</td></tr>
   </tbody></table></div>
   <div class="callout info"><span class="icon icon--filled" aria-hidden="true">info</span><div><b>Qué no incluye el paquete</b>Las fuentes (Inter, Open Sans y las demás se cargan desde Google Fonts), los íconos Material Symbols Rounded (Google Fonts) y la librería lottie-web. El spinner es CSS.</div></div>
