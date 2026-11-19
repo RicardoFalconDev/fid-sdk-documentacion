@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FID SDK · Documentación viva de personalización</title>
+<meta name="description" content="Guía interactiva para integrar la personalización del SDK de FID: contrato, tokens, componentes, ilustraciones, íconos y accesibilidad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,100..700,0..1,0&display=swap">
+<style>
+/* ═════ Paquete FID SDK (tokens, accent, ilustraciones, íconos) ═════ */
+{{PACKAGE_CSS}}
+
+/* ═════ Documento ═════ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--text-primary);background:var(--bg-surface);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--text-link)}
+code,pre,.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-ligatures:none}
+code{font-size:.86em;background:var(--bg-subtle);padding:.1em .38em;border-radius:6px;color:var(--text-primary)}
+h1,h2,h3,h4{margin:0;line-height:1.2;color:var(--text-primary)}
+p{margin:0 0 12px}
+button{font:inherit;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Layout */
+.app{display:grid;grid-template-columns:292px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;background:var(--bg-default);border-right:1px solid var(--stroke-default);padding:24px 16px 32px;display:flex;flex-direction:column;gap:20px}
+.brandmark{display:flex;align-items:center;gap:10px;padding:0 8px}
+.brandmark svg{height:28px;width:auto}
+.brandmark small{display:block;font-size:12px;color:var(--text-tertiary);line-height:1.3}
+.searchbtn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;border:1px solid var(--stroke-strong);background:var(--bg-default);border-radius:10px;color:var(--text-tertiary);font-size:14px;text-align:left}
+.searchbtn kbd{margin-left:auto;font:500 12px 'Inter';border:1px solid var(--stroke-default);border-radius:6px;padding:1px 6px;color:var(--text-secondary);background:var(--bg-surface)}
+.toc{display:flex;flex-direction:column;gap:2px}
+.toc .grp{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary);padding:14px 12px 6px}
+.toc a{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500}
+.toc a .n{width:22px;height:22px;border-radius:50%;background:var(--bg-subtle);color:var(--text-secondary);font-size:12px;display:grid;place-items:center;flex:none;font-weight:600}
+.toc a:hover{background:var(--bg-surface);color:var(--text-primary)}
+.toc a.on{background:var(--brand-tint);color:var(--text-primary);font-weight:600}
+.toc a.on .n{background:var(--brand-default);color:var(--button-primary-text)}
+.side .links{margin-top:auto;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.side .links a{display:flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid var(--stroke-default);border-radius:10px;text-decoration:none;color:var(--text-primary);font-weight:500}
+.side .links a:hover{border-color:var(--stroke-primary)}
+.progress{height:3px;background:var(--bg-subtle);border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--brand-default);transition:width .2s}
+
+main{padding:0 clamp(20px,5vw,64px) 96px;max-width:1080px;width:100%}
+section{padding-top:72px}
+.kicker{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-default);margin-bottom:10px;display:flex;gap:8px;align-items:center}
+h2{font-size:clamp(28px,3.4vw,38px);letter-spacing:-.02em;margin-bottom:12px;font-weight:700}
+h3{font-size:20px;font-weight:600;margin:36px 0 10px}
+h4{font-size:16px;font-weight:600;margin:22px 0 6px}
+.lead{font-size:18px;color:var(--text-secondary);max-width:68ch;margin-bottom:28px}
+.muted{color:var(--text-tertiary)}
+.small{font-size:14px}
+
+/* Hero */
+.hero{padding-top:56px}
+.hero h1{font-size:clamp(36px,5vw,56px);letter-spacing:-.03em;font-weight:700;margin:10px 0 16px;max-width:16ch}
+.hero .lead{font-size:20px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--stroke-default);background:var(--bg-default);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500;color:var(--text-secondary)}
+.chip.ok{background:var(--feedback-success-bg);border-color:var(--feedback-success-border);color:var(--feedback-success-text)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--button-secondary-border);background:var(--button-secondary-bg);color:var(--button-secondary-text);font-weight:600;text-decoration:none;font-size:15px}
+.btn:hover{background:var(--button-secondary-bg-hover)}
+.btn.pri{background:var(--brand-default);border-color:var(--brand-default);color:var(--button-primary-text)}
+.btn.pri:hover{background:var(--button-primary-bg-hover)}
+.btn.sm{height:34px;padding:0 14px;font-size:13px}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:16px;padding:20px}
+.card h4{margin:0 0 6px}
+.card p{font-size:14px;color:var(--text-secondary);margin:0}
+.card .ico{width:40px;height:40px;border-radius:12px;background:var(--brand-tint);border:1px solid var(--stroke-brand-subtle);display:grid;place-items:center;margin-bottom:14px;color:var(--brand-default)}
+.card .ico .icon{font-size:22px}
+.card .tag{display:inline-block;margin-top:12px;font-family:'JetBrains Mono';font-size:12px;color:var(--text-secondary);background:var(--bg-surface);border:1px solid var(--stroke-default);padding:2px 8px;border-radius:6px}
+.steps{counter-reset:s;display:grid;gap:12px}
+.steps li{list-style:none;counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start;background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:14px;padding:16px}
+.steps li::before{content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--brand-default);color:var(--button-primary-text);display:grid;place-items:center;font-weight:700}
+.steps{padding:0;margin:0}
+.steps b{display:block}
+
+/* Callouts */
+.callout{display:flex;gap:12px;padding:16px;border-radius:10px;border:1px solid var(--stroke-default);background:var(--bg-surface);margin:16px 0;font-size:15px}
+.callout .icon{flex:none;font-size:24px}
+.callout b{display:block;font-weight:600;margin-bottom:2px}
+.callout.info .icon{color:var(--feedback-info-icon)}
+.callout.warn{background:#fffbee;border-color:var(--feedback-warning-border)}
+.callout.warn .icon{color:#f59e0b}
+.callout.ok{background:var(--feedback-success-bg);border-color:var(--feedback-success-border)}
+.callout.ok .icon{color:var(--feedback-success-icon)}
+.callout .more{font-weight:700;color:#1d4ed8;text-decoration:none;font-size:14px}
+
+/* Code */
+.code{position:relative;margin:12px 0 20px;border-radius:12px;background:#212529;color:#e9ecef;overflow:hidden}
+.code .bar{display:flex;align-items:center;gap:8px;padding:8px 8px 8px 16px;background:#2b3035;color:#adb5bd;font-size:12px}
+.code .bar .copy{margin-left:auto;background:transparent;border:1px solid #495057;color:#dee2e6;border-radius:8px;padding:4px 10px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
+.code .bar .copy:hover{background:#343a40}
+.code .bar .copy.done{border-color:#71bd8b;color:#95d0a7}
+.code .bar .copy .icon{font-size:16px}
+.code pre{margin:0;padding:16px;overflow:auto;font-size:13px;line-height:1.65;max-height:560px;tab-size:2}
+.tk-c{color:#8b949e}.tk-s{color:#ffd580}.tk-k{color:#8ee3ff}.tk-n{color:#d6a4ff}
+
+/* Tablas */
+.tablewrap{overflow:auto;border:1px solid var(--stroke-default);border-radius:14px;background:var(--bg-default);margin:12px 0 20px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{text-align:left;font-weight:600;color:var(--text-secondary);background:var(--brand-surface);padding:10px 14px;font-size:13px;position:sticky;top:0}
+td{padding:11px 14px;border-top:1px solid var(--stroke-subtle);vertical-align:top}
+td code{white-space:nowrap}
+.sw{display:inline-block;width:18px;height:18px;border-radius:5px;border:1px solid rgba(0,0,0,.12);vertical-align:-4px;margin-right:8px}
+.badge{display:inline-flex;font-size:12px;font-weight:600;border-radius:999px;padding:1px 9px;border:1px solid var(--stroke-brand-subtle);background:var(--brand-tint);color:var(--brand-default)}
+.badge.fix{background:var(--bg-surface);border-color:var(--stroke-default);color:var(--text-tertiary)}
+.copytoken{background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.copytoken:hover code{background:var(--brand-tint)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;padding:4px;background:var(--bg-subtle);border-radius:12px;width:max-content;max-width:100%;overflow:auto;margin:14px 0}
+.tabs button{border:0;background:transparent;padding:8px 14px;border-radius:9px;font-size:14px;font-weight:500;color:var(--text-secondary);white-space:nowrap}
+.tabs button[aria-selected=true]{background:var(--bg-default);color:var(--text-primary);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.pane[hidden]{display:none}
+
+/* Playground */
+.lab{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:20px;align-items:start}
+.panel{background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:16px;padding:18px}
+.ctrl{display:grid;gap:6px;margin-bottom:16px}
+.ctrl label{font-size:13px;font-weight:600}
+.ctrl small{color:var(--text-tertiary);font-size:12px}
+.hexrow{display:flex;gap:8px}
+.hexrow input[type=color]{width:46px;height:46px;border:1px solid var(--stroke-default);border-radius:10px;padding:5px;background:var(--bg-default)}
+.hexrow input[type=text],.ctrl select,.ctrl input[type=number]{flex:1;min-width:0;height:46px;border:1px solid var(--stroke-strong);border-radius:10px;padding:0 12px;font:500 15px 'JetBrains Mono';text-transform:uppercase;background:var(--bg-default);color:var(--text-primary)}
+.ctrl select,.ctrl input[type=number]{text-transform:none;font-family:'Inter'}
+.hexrow input.bad{border-color:var(--feedback-error-text)}
+.seg{display:flex;gap:4px;padding:4px;background:var(--bg-subtle);border-radius:10px}
+.seg button{flex:1;border:0;background:transparent;padding:8px 4px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text-secondary);line-height:1.2}
+.seg button small{display:block;color:var(--text-tertiary);font-size:11px}
+.seg button[aria-pressed=true]{background:#fff;color:var(--text-primary);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+.preset{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--stroke-default);background:var(--bg-default);border-radius:999px;padding:5px 12px 5px 6px;font-size:13px;font-weight:500}
+.preset i{width:20px;height:20px;border-radius:50%;display:block;border:1px solid rgba(0,0,0,.12)}
+.preset:hover{border-color:var(--stroke-primary)}
+.stage{background:var(--bg-subtle);border-radius:16px;padding:24px;display:flex;justify-content:center}
+.phone{width:328px;max-width:100%}
+
+/* Notice WCAG (callout del panel) */
+.notice{display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:8px;border:1px solid var(--stroke-default);background:var(--bg-surface);font-size:14px;line-height:20px;margin-top:16px;color:var(--text-secondary)}
+.notice .icon{font-size:24px;flex:none;color:var(--feedback-info-icon)}
+.notice .t{font-size:16px;font-weight:500;color:#121828;display:block;margin-bottom:4px}
+.notice .lvl{font-weight:600;color:var(--feedback-success-text)}
+.notice .x{font-weight:700;color:var(--feedback-error-text)}
+.notice a{font-weight:700;color:#1d4ed8;text-decoration:none}
+.notice.no{background:#fffbee;border-color:var(--feedback-warning-border)}
+.notice.no .icon{color:#f59e0b}
+
+/* Escala accent */
+.scale{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin:8px 0}
+.scale div{border-radius:8px;height:56px;border:1px solid rgba(0,0,0,.08);position:relative}
+.scale div span{position:absolute;left:6px;bottom:4px;font:600 11px 'Inter';color:#212529}
+.scale div:nth-child(n+9) span{color:#fff}
+.scale-cap{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;font:500 11px 'JetBrains Mono';color:var(--text-tertiary);margin-bottom:6px}
+
+/* ═════ Componentes del SDK (las recetas de la sección 6) ═════ */
+.sdk-frame{font-family:var(--font-family-default),system-ui,-apple-system,'Segoe UI',sans-serif}
+.sdk-card{background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:var(--radius-lg);overflow:hidden}
+.sdk-title{color:var(--text-primary)}
+.sdk-body{color:var(--text-secondary)}
+.sdk-btn{display:flex;align-items:center;justify-content:center;width:100%;height:48px;padding:0 20px;font:600 16px/24px var(--font-family-default),system-ui,sans-serif;background:var(--button-primary-bg);border:1px solid var(--button-primary-bg);border-radius:var(--radius-button);color:var(--button-primary-text);cursor:pointer}
+.sdk-btn:hover{background:var(--button-primary-bg-hover)}
+.sdk-btn--secondary{background:var(--button-secondary-bg);border:1px solid var(--button-secondary-border);color:var(--button-secondary-text)}
+.sdk-btn--secondary:hover{background:var(--button-secondary-bg-hover)}
+.sdk-btn--danger{background:var(--button-danger-bg);border-color:var(--button-danger-bg);color:var(--button-danger-text)}
+.sdk-btn:disabled{background:var(--button-disabled-bg);border-color:var(--button-disabled-border);color:var(--button-disabled-text);cursor:not-allowed}
+.sdk-checkbox{width:24px;height:24px;border-radius:6px;background:var(--brand-default);color:var(--button-primary-text);display:grid;place-items:center;flex:none}
+.sdk-checkbox .icon{font-size:20px}
+.sdk-tile{width:40px;height:40px;border-radius:14px;background:var(--brand-tint);border:1px solid var(--stroke-brand-subtle);color:var(--brand-default);display:grid;place-items:center;flex:none}
+.sdk-tile .icon{font-size:20px}
+.sdk-otp-cell{width:44px;height:52px;border:1px solid var(--stroke-strong);border-radius:8px;display:grid;place-items:center;font:600 20px var(--font-family-default);background:var(--bg-default)}
+.sdk-otp-cell.is-focus{border-color:var(--stroke-primary);box-shadow:0 0 0 3px var(--accent-4)}
+.sdk-spinner{width:32px;height:32px;border-radius:50%;border:3px solid var(--stroke-default);border-top-color:var(--brand-default);animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.sdk-spinner{animation-duration:2.4s}}
+.sdk-link{color:var(--text-link);text-decoration:underline}
+.sdk-footer{background:var(--bg-surface);border-top:1px solid var(--stroke-default);display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 24px;font-size:10px;letter-spacing:.06em;color:var(--text-secondary)}
+.sdk-footer svg{height:14px;width:auto}
+.badge-error{display:inline-flex;align-items:center;gap:6px;border-radius:16px;padding:2px 12px;font-size:13px;font-weight:600;color:var(--feedback-error-text);background:var(--feedback-error-bg);border:1px solid var(--feedback-error-border)}
+.sdk-screen{padding:24px 16px 16px;display:grid;gap:16px;text-align:center}
+.sdk-screen h5{margin:0;font:700 20px/28px var(--font-family-default)}
+.sdk-screen p{margin:0;font-size:14px;line-height:20px}
+.sdk-list{display:grid;gap:14px;text-align:left;margin:0;padding:0;list-style:none}
+.sdk-list li{display:flex;gap:12px;align-items:center;font-size:14px;line-height:20px;color:var(--text-secondary)}
+.sdk-terms{display:flex;gap:12px;text-align:left;font-size:14px;line-height:20px;color:var(--text-secondary);align-items:flex-start}
+.demo{background:var(--bg-surface);border:1px dashed var(--stroke-strong);border-radius:14px;padding:20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:12px 0}
+.demo .sdk-btn{width:auto;min-width:160px}
+
+/* Tipografía y medidas */
+.spec{font-size:14px}
+.radbox{display:flex;flex-wrap:wrap;gap:14px;margin:12px 0}
+.radbox div{width:96px;text-align:center;font-size:12px;color:var(--text-secondary)}
+.radbox i{display:block;height:64px;border:2px solid var(--brand-default);background:var(--brand-tint);margin-bottom:6px}
+.spaces{display:grid;gap:6px;margin:12px 0}
+.spaces div{display:flex;align-items:center;gap:12px;font:500 12px 'JetBrains Mono';color:var(--text-secondary)}
+.spaces i{display:block;height:14px;background:var(--brand-default);border-radius:3px}
+.spaces span{width:112px;flex:none}
+
+/* Lotties / ilustraciones */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.gcell{background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.gcell .view{height:160px;display:grid;place-items:center;background:#fff;border:1px solid var(--stroke-subtle);border-radius:12px;overflow:hidden}
+.gal{margin-bottom:14px}
+.gcell .view svg{max-height:130px;max-width:90%}
+.gcell h4{margin:0;font-size:14px}
+.gcell p{margin:0;font-size:13px;color:var(--text-tertiary)}
+.hl{display:inline-block;font:600 11px 'Inter';padding:1px 8px;border-radius:999px}
+.hl.brand{background:var(--brand-tint);color:var(--brand-default);border:1px solid var(--stroke-brand-subtle)}
+.hl.fix{background:var(--bg-subtle);color:var(--text-secondary)}
+
+/* Íconos */
+.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.ib{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 6px;background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:12px;font:500 12px 'JetBrains Mono';color:var(--text-secondary)}
+.ib .icon{font-size:28px;color:var(--text-primary)}
+.ib:hover{border-color:var(--stroke-primary)}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.toggle input{width:18px;height:18px;accent-color:var(--brand-default)}
+
+/* Accesibilidad */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+.lv{background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:16px;padding:18px}
+.lv b{display:block;font-size:26px;letter-spacing:-.02em}
+.lv small{color:var(--text-tertiary);display:block;margin-bottom:8px}
+.lv.on{border-color:var(--feedback-success-icon);box-shadow:0 0 0 3px var(--feedback-success-bg)}
+.gauge{position:relative;height:12px;border-radius:999px;background:linear-gradient(90deg,var(--feedback-error-bg) 0 22%,var(--feedback-warning-border) 22% 33%,var(--feedback-success-border) 33% 66%,var(--feedback-success-icon) 66%);margin:34px 0 28px}
+.gauge .pt{position:absolute;top:-6px;width:4px;height:24px;background:var(--text-primary);border-radius:2px;transform:translateX(-50%);transition:left .2s}
+.gauge .mk{position:absolute;top:22px;font:600 11px 'Inter';color:var(--text-tertiary);transform:translateX(-50%)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* Checklist */
+.check{display:grid;gap:8px;margin:0;padding:0}
+.check li{list-style:none}
+.check label{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:12px;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--brand-default);flex:none}
+.check input:checked + span{color:var(--text-tertiary);text-decoration:line-through}
+
+/* Reglas IA */
+details{background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:12px;padding:0 16px;margin:8px 0}
+details summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none;display:flex;gap:10px;align-items:center}
+details summary::before{content:'expand_more';font-family:'Material Symbols Rounded';font-size:22px;transition:transform .15s}
+details[open] summary::before{transform:rotate(180deg)}
+details .body{padding:0 0 14px;color:var(--text-secondary);font-size:15px}
+.rules{counter-reset:r;display:grid;gap:8px;padding:0;margin:0}
+.rules li{list-style:none;counter-increment:r;display:grid;grid-template-columns:28px 1fr;gap:12px;background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:12px;padding:12px 16px;font-size:15px}
+.rules li::before{content:counter(r);width:28px;height:28px;border-radius:50%;background:var(--bg-subtle);display:grid;place-items:center;font-weight:700;font-size:13px}
+
+/* Capas de token */
+.layers{display:grid;gap:10px;margin:14px 0}
+.layer{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;background:var(--bg-default);border:1px solid var(--stroke-default);border-radius:14px;padding:14px 16px}
+.layer .no{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:700;background:var(--bg-subtle)}
+.layer.use{border-color:var(--stroke-primary);box-shadow:0 0 0 3px var(--accent-3)}
+.layer.use .no{background:var(--brand-default);color:var(--button-primary-text)}
+.layer .ex{font-family:'JetBrains Mono';font-size:12px;color:var(--text-secondary)}
+.conv{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:12px 0}
+.conv input{height:46px;border:1px solid var(--stroke-strong);border-radius:10px;padding:0 12px;font:500 15px 'JetBrains Mono';width:100%}
+.conv output{display:flex;align-items:center;height:46px;border:1px solid var(--stroke-brand-subtle);background:var(--brand-tint);border-radius:10px;padding:0 12px;font:500 15px 'JetBrains Mono'}
+
+/* Barra superior móvil */
+.topbar{display:none}
+@media (max-width:980px){
+  .app{grid-template-columns:1fr}
+  .side{display:none}
+  .topbar{display:flex;position:sticky;top:0;z-index:30;background:var(--bg-default);border-bottom:1px solid var(--stroke-default);padding:10px 16px;align-items:center;gap:12px}
+  .topbar select{flex:1;height:40px;border:1px solid var(--stroke-strong);border-radius:10px;padding:0 10px;font:500 14px 'Inter'}
+  .lab,.pair,.levels{grid-template-columns:1fr}
+  .conv{grid-template-columns:1fr}
+}
+
+/* Paleta de búsqueda */
+.pal{position:fixed;inset:0;background:rgba(33,37,41,.5);display:none;align-items:flex-start;justify-content:center;padding-top:12vh;z-index:100}
+.pal.open{display:flex}
+.pal .box{width:min(640px,92vw);background:var(--bg-default);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden}
+.pal input{width:100%;height:56px;border:0;border-bottom:1px solid var(--stroke-default);padding:0 20px;font:500 17px 'Inter';outline:none}
+.pal ul{list-style:none;margin:0;padding:8px;max-height:50vh;overflow:auto}
+.pal li{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:15px}
+.pal li small{margin-left:auto;color:var(--text-tertiary);font-size:12px}
+.pal li.on,.pal li:hover{background:var(--brand-tint)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#212529;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.2s;z-index:120;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+footer.docfoot{margin-top:96px;padding-top:24px;border-top:1px solid var(--stroke-default);font-size:14px;color:var(--text-tertiary);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+.printonly{display:none}
+
+/* ═════ PDF / impresión ═════ */
+@page{size:A4;margin:16mm 14mm 18mm}
+@media print{
+  body{background:#fff;font-size:11pt}
+  .app{display:block}
+  .side,.topbar,.cta .btn.pri.noprint,.noprint,.searchbtn,.pal,.toast,.tabs,.code .bar .copy{display:none!important}
+  main{max-width:none;padding:0}
+  section{padding-top:14mm;margin-top:0}
+  section.hero{break-before:auto;padding-top:0}
+  #probalo,#contrato,#catalogo,#medidas,#recetas,#ilustraciones,#accesibilidad,#recursos{break-before:page;padding-top:0}
+  .spec td:nth-child(2),.spec td:nth-child(3){white-space:nowrap}
+  tr{break-inside:avoid}
+  .pane[hidden]{display:block!important}
+  .pane .ptitle{display:block!important}
+  .card,.callout,.code,.tablewrap,.panel,.gcell,.layer,.lv,.rules li,details{break-inside:avoid}
+  .code pre{max-height:none;white-space:pre-wrap;word-break:break-word;font-size:8.5pt}
+  .tablewrap{overflow:visible}
+  details{display:block}
+  details>summary{pointer-events:none}
+  details .body{display:block}
+  .lab .panel.ctrls{display:none}
+  .lab{grid-template-columns:1fr}
+  .stage{background:#fff;padding:0;gap:16px;flex-wrap:wrap}
+  .printonly{display:flex}
+  .liveonly{display:none!important}
+  h2{break-after:avoid}
+  h3,h4{break-after:avoid}
+  a[href^="http"]::after{content:""}
+  .print-cover{display:flex!important;flex-direction:column;justify-content:space-between;min-height:250mm;break-after:page}
+  .print-toc{display:block!important;break-after:page}
+}
+.print-cover,.print-toc{display:none}
+.print-cover h1{font-size:44pt;line-height:1.05;letter-spacing:-.03em;margin:16mm 0 6mm;max-width:14ch}
+.print-cover p{font-size:15pt;color:var(--text-secondary);max-width:42ch}
+.print-toc h2{margin-bottom:8mm}
+.print-toc ol{padding:0;margin:0;list-style:none;display:grid;gap:3mm}
+.print-toc li a{display:flex;gap:4mm;align-items:baseline;text-decoration:none;color:var(--text-primary);font-size:13pt;border-bottom:1px solid var(--stroke-default);padding-bottom:2.5mm}
+.print-toc li a b{color:var(--brand-default);width:8mm}
+.print-toc li a small{margin-left:auto;color:var(--text-tertiary);font-size:10pt}
+</style>
+</head>
+<body>
+
+<!-- ═════ Portada y contenido (solo PDF) ═════ -->
+<div class="print-cover">
+  <div>{{LOGO_FID}}</div>
+  <div>
+    <div class="kicker">Documentación · Equipo de desarrollo</div>
+    <h1>Personalización del SDK</h1>
+    <p>Contrato de configuración, tokens, componentes, ilustraciones, íconos y accesibilidad. En este PDF, el índice, los links y los marcadores del visor llevan a cada sección.</p>
+  </div>
+  <div class="small muted">Actualizada el 19 de noviembre de 2026 · Fuente de verdad: archivo de Figma “FID SDK — Variables”</div>
+</div>
+<div class="print-toc">
+  <div class="kicker">Contenido</div>
+  <h2>Qué vas a encontrar</h2>
+  <ol id="printToc"></ol>
+</div>
+
+<div class="topbar">
+  <strong style="font-size:15px">FID SDK</strong>
+  <select id="jump" aria-label="Ir a una sección"></select>
+  <button class="btn sm" id="openPalM">Buscar</button>
+</div>
+
+<div class="app">
+<aside class="side" aria-label="Navegación">
+  <div class="brandmark">{{LOGO_FID}}<div><strong style="font-size:15px">SDK · Personalización</strong><small>Documentación viva</small></div></div>
+  <button class="searchbtn" id="openPal"><span class="icon" aria-hidden="true">search</span> Buscar token, regla…<kbd>⌘K</kbd></button>
+  <nav class="toc" id="toc" aria-label="Secciones"></nav>
+  <div class="progress" title="Avance de lectura"><i id="prog"></i></div>
+  <div class="links">
+    <a href="{{LINK_FIGMA_DOCS}}" target="_blank" rel="noopener"><span class="icon" aria-hidden="true">palette</span> Figma · Variables y documentación</a>
+    <a href="{{LINK_FIGMA_FLOWS}}" target="_blank" rel="noopener"><span class="icon" aria-hidden="true">account_tree</span> Figma · Flujos de personalización</a>
+    <a href="{{LINK_DRIVE}}" target="_blank" rel="noopener"><span class="icon" aria-hidden="true">folder</span> Drive · Carpeta de assets</a>
+  </div>
+</aside>
+
+<main id="main">
+
+<!-- ═════ 0 · Inicio ═════ -->
+<section class="hero" id="inicio" data-title="Empezá acá" data-g="Empezar">
+  <div class="kicker"><span class="icon" aria-hidden="true">code</span> Documentación · Equipo de desarrollo</div>
+  <h1>Personalización del SDK</h1>
+  <p class="lead">Referencia para implementar la personalización de marca del SDK: qué propiedades acepta, cómo se aplican y qué tokens consumen los componentes. El SDK acepta <b>cuatro propiedades</b>; todo lo demás es fijo.</p>
+  <div class="meta">
+    <span class="chip ok"><span class="icon" aria-hidden="true" style="font-size:16px">check_circle</span> Actualizada · 19 nov 2026</span>
+    <span class="chip">Fuente de verdad: Figma “FID SDK — Variables”</span>
+    <span class="chip">Si algo contradice a Figma, gana Figma</span>
+  </div>
+  <div class="cta">
+    <a class="btn pri" href="#contrato">Contrato de configuración <span class="icon" aria-hidden="true">arrow_forward</span></a>
+    <a class="btn" href="#probalo">Playground</a>
+    <a class="btn" href="{{LINK_FIGMA_DOCS}}" target="_blank" rel="noopener">Abrir en Figma</a>
+  </div>
+
+  <h3>Qué es configurable</h3>
+  <div class="cards">
+    <div class="card"><div class="ico"><span class="icon" aria-hidden="true">palette</span></div><h4>Color principal</h4><p>Botones, casillas, tiles, foco, spinner e ilustraciones. De un solo color sale toda la escala.</p><span class="tag">primary → --accent-9</span></div>
+    <div class="card"><div class="ico"><span class="icon" aria-hidden="true">format_color_text</span></div><h4>Color del texto de los botones</h4><p>Texto del botón primario y tilde de las casillas. Blanco por defecto.</p><span class="tag">primaryText → --button-primary-text</span></div>
+    <div class="card"><div class="ico"><span class="icon" aria-hidden="true">text_fields</span></div><h4>Tipografía</h4><p>Una familia para todos los textos, de una lista de 8. Inter por defecto.</p><span class="tag">font → --font-family-default</span></div>
+    <div class="card"><div class="ico"><span class="icon" aria-hidden="true">rounded_corner</span></div><h4>Redondeado de botones</h4><p>XS 4 · S 8 · M 16 · Full 999 o cualquier valor desde 0 px.</p><span class="tag">radius → --radius-button</span></div>
+  </div>
+
+  <h3>Implementación en 4 pasos</h3>
+  <ol class="steps">
+    <li><div><b>Cargá los estilos en orden</b><span class="small muted"><code>tokens.css</code> → <code>accent-from-primary.css</code> → <code>illustrations.css</code> → <code>icons.css</code>. Siempre en ese orden: gana el último.</span></div></li>
+    <li><div><b>Marcá el contenedor del SDK con <code>sdk-frame</code></b><span class="small muted">Ahí se escribe la marca del cliente, no en el <code>:root</code> de su página.</span></div></li>
+    <li><div><b>Aplicá la configuración</b><span class="small muted">Cuatro <code>setProperty</code> sobre el contenedor. Si un HEX no es válido se usa el valor por defecto; el SDK no falla.</span></div></li>
+    <li><div><b>Verificá con tres marcas</b><span class="small muted">Una azul, una violeta y una clara con texto oscuro. Usá la <a href="#checklist">lista de verificación</a>.</span></div></li>
+  </ol>
+</section>
+
+<!-- ═════ 1 · Playground ═════ -->
+<section id="probalo" data-title="Playground" data-g="Empezar">
+  <div class="kicker">1 · Playground</div>
+  <h2>Playground</h2>
+  <p class="lead">Cambiá las cuatro propiedades y mirá cómo reacciona el SDK. Lo que se muestra es exactamente lo que el SDK escribe en el contenedor. <b>La configuración activa se aplica a todo el documento</b>: ilustraciones, Lotties y componentes de más abajo.</p>
+
+  <div class="lab liveonly">
+    <div class="panel ctrls">
+      <div class="ctrl">
+        <label for="inPrimary">Color principal <span class="muted">· primary</span></label>
+        <div class="hexrow"><input type="color" id="pkPrimary" aria-label="Elegir color principal"><input type="text" id="inPrimary" maxlength="7" spellcheck="false" autocomplete="off"></div>
+        <small id="hintPrimary">HEX #RRGGBB o #RGB.</small>
+      </div>
+      <div class="ctrl">
+        <label for="inText">Color del texto de los botones <span class="muted">· primaryText</span></label>
+        <div class="hexrow"><input type="color" id="pkText" aria-label="Elegir color del texto de los botones"><input type="text" id="inText" maxlength="7" spellcheck="false" autocomplete="off"></div>
+        <small id="hintText">Blanco por defecto.</small>
+      </div>
+      <div class="ctrl">
+        <label>Redondeado <span class="muted">· radius</span></label>
+        <div class="seg" id="segRadius" role="group" aria-label="Redondeado">
+          <button data-r="xs" aria-pressed="false">XS<small>4</small></button>
+          <button data-r="s" aria-pressed="false">S<small>8</small></button>
+          <button data-r="m" aria-pressed="false">M<small>16</small></button>
+          <button data-r="full" aria-pressed="true">Full<small>999</small></button>
+          <button data-r="custom" aria-pressed="false">Otro<small>px</small></button>
+        </div>
+        <input type="number" id="inRadius" min="0" step="1" placeholder="Radio en px (ej. 12)" hidden aria-label="Radio personalizado en píxeles">
+      </div>
+      <div class="ctrl">
+        <label for="selFont">Tipografía <span class="muted">· font</span></label>
+        <select id="selFont"></select>
+      </div>
+      <div class="ctrl" style="margin-bottom:0">
+        <label>Marcas de ejemplo</label>
+        <div class="presets" id="presets"></div>
+      </div>
+    </div>
+    <div>
+      <div class="stage"><div class="phone" id="phoneWrap"></div></div>
+      <div id="notice"></div>
+    </div>
+  </div>
+
+  <!-- PDF: tres marcas estáticas -->
+  <div class="stage printonly" id="printBrands"></div>
+
+  <h3>Lo que escribe el SDK</h3>
+  <div class="tabs liveonly" role="tablist" data-tabs="out">
+    <button role="tab" aria-selected="true" data-p="o-cfg">Configuración</button>
+    <button role="tab" aria-selected="false" data-p="o-css">CSS en el contenedor</button>
+  </div>
+  <div class="pane" id="o-cfg"><div class="code" data-live="cfg"><div class="bar"><span>config.json</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre></pre></div></div>
+  <div class="pane" id="o-css" hidden><div class="code" data-live="css"><div class="bar"><span>.sdk-frame (inline)</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre></pre></div></div>
+
+  <h3>La escala accent se calcula sola</h3>
+  <p>El cliente solo da el <b>paso 9</b>. Los pasos 1 a 8 mezclan el color con blanco; los pasos 10 a 12, con negro. No hay que definir nada más.</p>
+  <div class="scale-cap">{{SCALE_CAP}}</div>
+  <div class="scale sdk-frame" id="scale"></div>
+  <div class="tablewrap"><table><thead><tr><th>Paso</th><th>Rol</th><th>Fórmula</th><th>Lo usa</th></tr></thead><tbody id="scaleTable"></tbody></table></div>
+</section>
+
+<!-- ═════ 2 · Tokens ═════ -->
+<section id="tokens" data-title="Qué es un token" data-g="Entender">
+  <div class="kicker">2 · Conceptos</div>
+  <h2>Qué es un token</h2>
+  <p class="lead">Un token es un <b>nombre que apunta a un valor</b>. El código usa el nombre y nunca el valor. Así, cuando cambia la marca, cambia todo lo que dependía de ella.</p>
+  <div class="code"><div class="bar"><span>css</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre><span class="tk-c">/* ✗ valor suelto */</span>  .btn { background: #2A39D0; }
+<span class="tk-c">/* ✓ token        */</span>  .btn { background: var(--button-primary-bg); }</pre></div>
+
+  <h3>Tres capas, una sola se usa en componentes</h3>
+  <div class="layers">
+    <div class="layer"><div class="no">1</div><div><b>Primitivo</b><div class="small muted">Color crudo, escalas de 12 pasos. Es materia prima.</div></div><span class="ex">--indigo-9: #2A39D0</span></div>
+    <div class="layer use"><div class="no">2</div><div><b>Semántico <span class="badge">se usa en componentes</span></b><div class="small muted">Dice para qué sirve, no cómo se ve.</div></div><span class="ex">--button-primary-bg: var(--accent-9)</span></div>
+    <div class="layer"><div class="no">3</div><div><b>Componente</b><div class="small muted">El CSS que escribís vos.</div></div><span class="ex">background: var(--button-primary-bg)</span></div>
+  </div>
+
+  <h3>Cómo se nombran</h3>
+  <p>De Figma al CSS: las <code>/</code> pasan a <code>-</code> y se antepone <code>--</code>. La estructura es <code>--&lt;grupo&gt;-&lt;rol&gt;[-&lt;variante&gt;]</code>. Se nombra por <b>rol, nunca por color</b>: no existe un <code>--azul</code>.</p>
+  <div class="conv liveonly"><input id="convIn" value="button/primary-bg-hover" aria-label="Nombre del token en Figma" spellcheck="false"><span class="icon" aria-hidden="true">arrow_forward</span><output id="convOut"></output></div>
+  <p class="small muted">Grupos: <code>text</code> · <code>bg</code> · <code>stroke</code> · <code>button</code> · <code>feedback</code> · <code>brand</code> · <code>accent</code> · <code>decor</code> · <code>overlay</code>. Las escalas primitivas siguen la convención Radix de 12 pasos: 1–2 fondos · 3–5 componentes · 6–8 bordes · 9–10 sólidos · 11–12 texto.</p>
+
+  <h3>Reglas de oro <span class="badge fix">también para IA</span></h3>
+  <ol class="rules">
+    <li><span><b>Nunca escribas un color literal</b> (<code>#hex</code>, <code>rgb()</code>, <code>hsl()</code>, nombres) en CSS de componentes. Usá un token semántico.</span></li>
+    <li><span><b>Nunca uses primitivos</b> (<code>--gray-*</code>, <code>--indigo-*</code>…) dentro de componentes. Solo semánticos.</span></li>
+    <li><span><b>Elegí el token por lo que significa</b>, no por cómo se ve. Texto de apoyo = <code>--text-secondary</code> aunque hoy sea parecido a otro gris.</span></li>
+    <li><span><b>Si falta un token, no inventes un color.</b> Dejá <code>/* TODO: token faltante: … */</code> y avisá. Un color nuevo debe ser un paso de una escala existente.</span></li>
+    <li><span><b>Usá <code>var(--token)</code></b>, nunca copies el valor resuelto.</span></li>
+    <li><span><b>Color principal, color del texto de los botones, fuente y radio de botones son lo único configurable.</b> Todo lo demás es fijo: no lo expongas como opción.</span></li>
+    <li><span><b>No uses <code>--accent-*</code> directo</b> en componentes salvo los casos del catálogo. Preferí <code>--brand-*</code>, <code>--button-*</code>, <code>--stroke-primary</code>, <code>--text-brand</code>.</span></li>
+    <li><span><b>Los estados nunca cambian con la marca</b> (error, éxito, advertencia, info): usá <code>--feedback-*</code>.</span></li>
+    <li><span><b>Links</b>: <code>--text-link</code> + subrayado. Texto sobre fondo oscuro: <code>--text-inverse</code>. Texto sobre el botón primario: <code>--button-primary-text</code>.</span></li>
+    <li><span><b>Antes de entregar</b>, buscá en el diff <code>#[0-9a-fA-F]{3,8}</code>, <code>rgb(</code>, <code>--gray-</code>, <code>--indigo-</code>. Tiene que dar 0 resultados en archivos de componentes.</span></li>
+  </ol>
+</section>
+
+<!-- ═════ 3 · Contrato ═════ -->
+<section id="contrato" data-title="Contrato de configuración" data-g="Personalizar">
+  <div class="kicker">3 · Personalización</div>
+  <h2>Contrato de configuración</h2>
+  <p class="lead">Es el objeto que el integrador le entrega al SDK. Se valida antes de aplicarlo: si un dato no cumple, se usa su valor por defecto y el SDK no falla.</p>
+  <div class="code"><div class="bar"><span>config.json</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{
+  <span class="tk-k">"primary"</span>:      <span class="tk-s">"#6D28D9"</span>,   <span class="tk-c">// color principal (HEX #RRGGBB o #RGB)</span>
+  <span class="tk-k">"primaryText"</span>:  <span class="tk-s">"#FFFFFF"</span>,   <span class="tk-c">// color del texto de los botones (HEX); por defecto blanco</span>
+  <span class="tk-k">"font"</span>:         <span class="tk-s">"Poppins"</span>,   <span class="tk-c">// Inter · Open Sans · Roboto · Montserrat · Poppins · Lato · Nunito Sans · system</span>
+  <span class="tk-k">"radius"</span>:       <span class="tk-s">"m"</span>,         <span class="tk-c">// xs · s · m · full · custom</span>
+  <span class="tk-k">"radiusCustom"</span>: <span class="tk-n">12</span>           <span class="tk-c">// solo si radius = "custom": cualquier número ≥ 0 (px)</span>
+}</pre></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Propiedad</th><th>Valores</th><th>Por defecto</th><th>Qué cambia</th></tr></thead>
+    <tbody>
+      <tr><td><code>primary</code></td><td>HEX <code>#RRGGBB</code> o <code>#RGB</code> (se normaliza a mayúsculas). Solo se valida que sea un HEX válido.</td><td><code>#2A39D0</code></td><td><code>--accent-9</code> y, derivada de él, toda la escala <code>--accent-1…12</code></td></tr>
+      <tr><td><code>primaryText</code></td><td>HEX <code>#RRGGBB</code> o <code>#RGB</code>. Se recomienda contraste ≥ 4.5:1 contra <code>primary</code>; el panel avisa, nunca bloquea (ver <a href="#accesibilidad">Accesibilidad</a>).</td><td><code>#FFFFFF</code></td><td><code>--button-primary-text</code> (en Figma, <code>button/primary-text</code>)</td></tr>
+      <tr><td><code>font</code></td><td>Inter · Open Sans · Roboto · Montserrat · Poppins · Lato · Nunito Sans · system</td><td>Inter</td><td><code>--font-family-default</code></td></tr>
+      <tr><td><code>radius</code></td><td><code>xs</code> 4 · <code>s</code> 8 · <code>m</code> 16 · <code>full</code> 999 · <code>custom</code></td><td><code>full</code></td><td><code>--radius-button</code></td></tr>
+      <tr><td><code>radiusCustom</code></td><td>Cualquier número ≥ 0 (px), solo con <code>radius: "custom"</code></td><td>—</td><td><code>--radius-button</code></td></tr>
+    </tbody></table></div>
+  <div class="callout info"><span class="icon icon--filled" aria-hidden="true">info</span><div><b>Validá también en el servidor</b>Con un HEX inválido se usa el valor por defecto. Con un HEX válido el SDK aplica lo que recibe, aunque el contraste sea bajo: es solo un aviso.</div></div>
+
+  <h3>Qué cambia y qué no</h3>
+  <div class="cards">
+    <div class="card"><h4>Cambia con <code>primary</code></h4><p><code>--accent-1…12</code>, <code>--brand-*</code>, <code>--stroke-primary</code>, <code>--stroke-brand-subtle</code>, <code>--text-brand</code>, <code>--button-primary-bg(-hover)</code>, <code>--button-tertiary-*</code>, ilustraciones y Lotties de marca.</p></div>
+    <div class="card"><h4>Cambia con <code>primaryText</code></h4><p>Solo <code>--button-primary-text</code>: el texto de los botones primarios y el tilde de las casillas.</p></div>
+    <div class="card"><h4>No cambia nunca</h4><p>Jerarquía de texto, fondos y bordes neutros, estados (<code>--feedback-*</code>), links, botones secundario/peligro/deshabilitado, espaciado, radios (salvo <code>--radius-button</code>), tamaños, estilos de texto, check de éxito y X de error.</p></div>
+  </div>
+</section>
+
+<!-- ═════ 4 · Aplicar ═════ -->
+<section id="aplicar" data-title="Cómo se aplica" data-g="Personalizar">
+  <div class="kicker">4 · Implementación</div>
+  <h2>Cómo se aplica</h2>
+  <p class="lead">Las variables se escriben <b>en el contenedor del SDK</b>, no en el <code>:root</code> de la página del cliente. Los demás tokens ya las consumen: no hay que tocar nada más.</p>
+  <div class="code"><div class="bar"><span>javascript</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{{CODE_APPLY}}</pre></div>
+  <div class="callout warn"><span class="icon icon--filled" aria-hidden="true">error</span><div><b>La cascada importa</b><code>tokens.css</code> declara los semánticos en <code>:root</code> <b>y</b> en <code>.sdk-frame</code>. <code>var()</code> se resuelve en el elemento donde se declara: si los semánticos solo estuvieran en <code>:root</code>, <code>--button-primary-bg</code> usaría el <code>--accent-9</code> de la raíz y no vería el color del cliente. El contenedor del SDK debe llevar la clase <code>sdk-frame</code>, y <code>accent-from-primary.css</code> se carga siempre después de <code>tokens.css</code>.</div></div>
+  <h4>Con <code>font</code></h4>
+  <p>Cargá la fuente elegida bajo demanda y mantené <code>system-ui</code> de respaldo. Roboto y Lato no tienen peso 600 (usá 700); Open Sans y Lato no tienen 500 (usá 400).</p>
+</section>
+
+<!-- ═════ 5 · Catálogo ═════ -->
+<section id="catalogo" data-title="Catálogo de tokens" data-g="Referencia">
+  <div class="kicker">5 · Referencia</div>
+  <h2>Catálogo de tokens semánticos</h2>
+  <p class="lead">Filtrá por grupo o buscá por nombre. Tocá un token para copiar su <code>var()</code>. La insignia <span class="badge">Marca</span> indica que cambia con el color del cliente.</p>
+  <div class="ctrl liveonly" style="max-width:420px"><input id="tokSearch" type="search" placeholder="Buscar: button, error, #212529…" style="height:46px;border:1px solid var(--stroke-strong);border-radius:10px;padding:0 14px;font:500 15px 'Inter'" aria-label="Buscar token"></div>
+  <div class="tabs liveonly" id="tokTabs" role="tablist"></div>
+  <div id="tokPanes"></div>
+</section>
+
+<!-- ═════ 6 · Medidas ═════ -->
+<section id="medidas" data-title="Medidas y tipografía" data-g="Referencia">
+  <div class="kicker">6 · Referencia</div>
+  <h2>Medidas y estilos de texto</h2>
+  <p class="lead">Radios y espaciado ordenados de menor a mayor. Los estilos de texto van de mayor a menor tamaño: se aplica el estilo completo, no valores sueltos.</p>
+  <h3>Radios</h3>
+  <div class="radbox" id="radbox"></div>
+  <h3>Espaciado y tamaños</h3>
+  <p class="small muted">Escala de 8 px para márgenes, paddings y separaciones.</p>
+  <div class="spaces" id="spaces"></div>
+  <h3>Estilos de texto</h3>
+  <div class="tablewrap"><table class="spec"><thead><tr><th>Estilo</th><th>px / lh</th><th>Peso</th><th>Muestra</th></tr></thead><tbody id="textStyles"></tbody></table></div>
+  <p class="small muted">Las variantes <code>-underline</code> son para links. <code>xs-*</code> y <code>xxs-*</code> llevan <code>letter-spacing: 0.1px</code>. Fuente: <code>--font-family-default</code> (configurable); pesos <code>--font-style-regular|medium|semibold|bold</code> = 400/500/600/700.</p>
+</section>
+
+<!-- ═════ 7 · Recetas ═════ -->
+<section id="recetas" data-title="Recetas de componentes" data-g="Implementar">
+  <div class="kicker">7 · Implementación</div>
+  <h2>Recetas de componentes</h2>
+  <p class="lead">CSS listo para copiar, con el componente real al lado. Cambiá la marca arriba y todos se actualizan.</p>
+  <div class="tabs liveonly" role="tablist" data-tabs="rec">
+    <button role="tab" aria-selected="true" data-p="r-btn">Botones</button>
+    <button role="tab" aria-selected="false" data-p="r-form">Casilla, tile y código</button>
+    <button role="tab" aria-selected="false" data-p="r-misc">Link, pie y badge</button>
+  </div>
+  <div class="pane" id="r-btn"><div class="ptitle printonly"><h3>Botones</h3></div>
+    <div class="demo sdk-frame" data-brand><button class="sdk-btn">Continuar</button><button class="sdk-btn sdk-btn--secondary">Cancelar</button><button class="sdk-btn sdk-btn--danger">Rechazar</button><button class="sdk-btn" disabled>Deshabilitado</button></div>
+    <div class="code"><div class="bar"><span>css</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{{CODE_BTN}}</pre></div></div>
+  <div class="pane" id="r-form" hidden><div class="ptitle printonly"><h3>Casilla, tile y celda de código</h3></div>
+    <div class="demo sdk-frame" data-brand><span class="sdk-checkbox"><span class="icon icon--filled" aria-hidden="true">check</span></span><span class="sdk-tile"><span class="icon" aria-hidden="true">pin</span></span><span class="sdk-tile"><span class="icon" aria-hidden="true">ar_on_you</span></span><span class="sdk-tile"><span class="icon" aria-hidden="true">shield_lock</span></span><span class="sdk-otp-cell">4</span><span class="sdk-otp-cell is-focus">2</span><span class="sdk-spinner" aria-label="Cargando"></span></div>
+    <div class="code"><div class="bar"><span>css</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{{CODE_FORM}}</pre></div></div>
+  <div class="pane" id="r-misc" hidden><div class="ptitle printonly"><h3>Link, pie y badge de error</h3></div>
+    <div class="demo sdk-frame" data-brand><a class="sdk-link" href="#recetas">Olvidé mi clave de firma</a><span class="badge-error"><span class="icon icon--filled" aria-hidden="true" style="font-size:16px">error</span> Código incorrecto</span><div class="sdk-footer" style="width:280px;border-radius:8px">POWERED BY {{LOGO_FID_SM}}</div></div>
+    <div class="code"><div class="bar"><span>css</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{{CODE_MISC}}</pre></div></div>
+  <h4>Base del contenedor</h4>
+  <div class="code"><div class="bar"><span>css</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>.sdk-frame { font-family: var(--font-family-default), system-ui, -apple-system, 'Segoe UI', sans-serif; }
+
+.sdk-card  { background: var(--bg-default); border: 1px solid var(--stroke-default); border-radius: var(--radius-lg); }
+.sdk-title { color: var(--text-primary); }
+.sdk-body  { color: var(--text-secondary); }</pre></div>
+</section>
+
+<!-- ═════ 8 · Ilustraciones y Lotties ═════ -->
+<section id="ilustraciones" data-title="Ilustraciones y Lotties" data-g="Implementar">
+  <div class="kicker">8 · Implementación</div>
+  <h2>Ilustraciones y Lotties</h2>
+  <p class="lead">Los SVG se pintan con CSS y los Lotties se reclasifican con un script. <b>Los JSON de Lottie no llevan tokens</b> (el formato no puede leer variables CSS): traen colores hex y el color lo pone el SDK desde afuera. Acá se pintan con la configuración activa del playground.</p>
+  <h3>Ilustraciones SVG</h3>
+  <div class="gal sdk-frame" id="galIll" data-brand></div>
+  <p class="small">Insertalas <b>inline</b> (o con <code>&lt;use&gt;</code> de un sprite): con <code>&lt;img&gt;</code> el CSS externo no las alcanza. Las partes de marca llevan <code>class="ill-primary"</code> (color pleno, <code>--accent-9</code>) o <code>class="ill-primary-50"</code> (variante suave, <code>--accent-8</code>); las fijas usan <code>fill="white"</code> y no llevan clase. <b>No hay un archivo por color</b>.</p>
+  <h3>Lotties</h3>
+  <div class="gal sdk-frame" id="galLot" data-brand></div>
+  <div class="tablewrap"><table><thead><tr><th>Archivo</th><th>Dónde</th><th>¿Sigue la marca?</th><th>Qué se reclasifica</th></tr></thead><tbody>
+    <tr><td><code>face-scan.json</code></td><td>SDK</td><td><span class="hl brand">Sí</span></td><td><code>#4B70EB</code> trazo → <code>.lt-primary</code> · <code>#8BAEF2</code> y <code>#AECCF7</code> silueta → <code>.lt-primary-50</code> · grises sin clase</td></tr>
+    <tr><td><code>card-skeleton.json</code></td><td>Flujo completo</td><td><span class="hl brand">Sí</span></td><td>3 rellenos <code>#2A39D0</code> → <code>.lt-primary</code> · grises <code>#F7F7F7</code> <code>#C4C4C4</code> y trazo negro no se tocan</td></tr>
+    <tr><td><code>verification.json</code></td><td>Flujo completo</td><td><span class="hl brand">Sí</span></td><td>Azul <code>#2A39D0</code> (rellenos y trazo) → <code>.lt-primary</code> · grises y blanco no se tocan</td></tr>
+    <tr><td><code>success-check.json</code></td><td>SDK</td><td><span class="hl fix">Fijo</span></td><td>Verde <code>#39B93A</code> y halo <code>#C6F1C6</code>: no se recolorea</td></tr>
+    <tr><td><code>error-x.svg</code></td><td>SDK</td><td><span class="hl fix">Fijo</span></td><td>Clases <code>.err-bg</code> <code>.err-main</code> <code>.err-surface</code> leen <code>--feedback-error-*</code></td></tr>
+  </tbody></table></div>
+  <h4>Cómo se reclasifica un Lotti</h4>
+  <p>Se dibuja con lottie-web en modo <b>SVG</b>. Después, <code>tintLottie()</code> lee el color de cada trazo y relleno: si es azul (B − R ≥ 60) y R &gt; 120 recibe la variante suave (<code>accent-8</code>); si es azul y R ≤ 120, el color pleno (<code>accent-9</code>); lo demás no cambia. Se repite en cada cuadro (<code>enterFrame</code>) porque lottie-web asigna algunos colores recién al animar. No funciona con el renderer de canvas; estos archivos no usan degradados.</p>
+  <div class="code"><div class="bar"><span>js/tint-lottie.js</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{{CODE_TINT}}</pre></div>
+</section>
+
+<!-- ═════ 9 · Íconos ═════ -->
+<section id="iconos" data-title="Íconos" data-g="Implementar">
+  <div class="kicker">9 · Implementación</div>
+  <h2>Íconos</h2>
+  <p class="lead">Todos los íconos de interfaz son <b>Material Symbols Rounded, peso 300, sin relleno</b>. Solo van rellenos los que lo necesitan por diseño, con <code>.icon--filled</code>.</p>
+  <label class="toggle liveonly"><input type="checkbox" id="fillToggle"> Ver con relleno</label>
+  <div class="icons" id="iconGrid" style="margin-top:14px"></div>
+  <h3>Cargar la fuente y usarla</h3>
+  <div class="code"><div class="bar"><span>html + css</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{{CODE_ICONS}}</pre></div>
+  <ul class="small">
+    <li>Tamaños habituales: <b>24 px</b> (por defecto) y <b>20 px</b> dentro de tiles y componentes compactos.</li>
+    <li>El color no lo define la clase: sale de tokens (<code>--feedback-error-icon</code>, <code>--text-primary</code>, <code>--brand-default</code>…). Nunca un color literal.</li>
+    <li>Un ícono decorativo lleva <code>aria-hidden="true"</code>. Si es el único portador de una acción (cerrar), el botón lleva <code>aria-label</code>.</li>
+    <li>Tiles del onboarding: <code>pin</code> (código), <code>ar_on_you</code> (escaneo de rostro), <code>shield_lock</code> (clave). El tilde de la casilla hereda <code>--button-primary-text</code>.</li>
+  </ul>
+</section>
+
+<!-- ═════ 10 · Accesibilidad ═════ -->
+<section id="accesibilidad" data-title="Accesibilidad" data-g="Calidad">
+  <div class="kicker">10 · Calidad</div>
+  <h2>Accesibilidad</h2>
+  <p class="lead">El panel muestra <b>un único aviso</b> al final de la tarjeta de color: compara el color del texto de los botones contra el color principal. Informa, nunca bloquea el guardado ni rechaza la configuración.</p>
+
+  <h3>Niveles WCAG</h3>
+  <div class="levels" id="levels">
+    <div class="lv" data-l="A"><b>A</b><small>Nivel mínimo</small><span class="small">El piso de accesibilidad.</span></div>
+    <div class="lv" data-l="AA"><b>AA</b><small>Desde 4.5:1</small><span class="small">El estándar más habitual que exigen leyes y normativas, como la European Accessibility Act y la norma EN 301 549.</span></div>
+    <div class="lv" data-l="AAA"><b>AAA</b><small>Desde 7:1</small><span class="small">El nivel máximo y más exigente.</span></div>
+  </div>
+
+  <h3>Probá una combinación</h3>
+  <div class="pair liveonly">
+    <div class="ctrl"><label for="aFg">Texto del botón <span class="muted">· primaryText</span></label><div class="hexrow"><input type="color" id="aFgPk" aria-label="Elegir color del texto"><input type="text" id="aFg" maxlength="7" spellcheck="false"></div></div>
+    <div class="ctrl"><label for="aBg">Fondo del botón <span class="muted">· primary</span></label><div class="hexrow"><input type="color" id="aBgPk" aria-label="Elegir color de fondo"><input type="text" id="aBg" maxlength="7" spellcheck="false"></div></div>
+  </div>
+  <div class="gauge liveonly" id="gauge"><span class="pt"></span><span class="mk" style="left:14.3%">3:1</span><span class="mk" style="left:21.4%">4.5:1</span><span class="mk" style="left:33.3%">7:1</span><span class="mk" style="left:100%">21:1</span></div>
+  <div id="a11yNotice"></div>
+  <p class="small muted">El ratio se muestra truncado a 1 decimal. “Leer más” abre <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" target="_blank" rel="noopener">la guía de contraste de WCAG</a> en una pestaña nueva.</p>
+
+  <h3>El cálculo</h3>
+  <div class="code"><div class="bar"><span>javascript</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{{CODE_A11Y}}</pre></div>
+  <p>Canal: <code>c ≤ 0.03928 ? c/12.92 : ((c+0.055)/1.055)^2.4</code> · <code>L = 0.2126R + 0.7152G + 0.0722B</code> · <code>ratio = (Lmayor+0.05)/(Lmenor+0.05)</code>.</p>
+
+  <h3>Medidos con los valores por defecto</h3>
+  <p class="small muted">Valores redondeados. El aviso del panel trunca a 1 decimal, por eso el botón por defecto (8.09) aparece allí como 8.0:1; el nivel no cambia.</p>
+  <div class="tablewrap"><table><thead><tr><th>Combinación</th><th>Ratio</th><th>Nivel</th></tr></thead><tbody>
+    <tr><td><code>--button-primary-text</code> (blanco) sobre <code>--button-primary-bg</code> <code>#2A39D0</code></td><td>8.1:1</td><td><span class="badge">AAA</span></td></tr>
+    <tr><td><code>--text-link</code> sobre blanco</td><td>9.4:1</td><td><span class="badge">AAA</span></td></tr>
+    <tr><td><code>--text-primary</code> sobre blanco</td><td>15.4:1</td><td><span class="badge">AAA</span></td></tr>
+    <tr><td><code>--text-secondary</code> sobre blanco</td><td>8.2:1</td><td><span class="badge">AAA</span></td></tr>
+    <tr><td><code>--text-tertiary</code> sobre blanco</td><td>4.7:1</td><td><span class="badge">AA</span></td></tr>
+    <tr><td>Texto de error sobre su fondo (<code>--feedback-error-*</code>)</td><td>5.5:1</td><td><span class="badge">AA</span></td></tr>
+    <tr><td><code>--text-placeholder</code> sobre blanco</td><td>3.3:1</td><td><span class="badge fix">No cumple · solo campos vacíos</span></td></tr>
+    <tr><td><code>accent-8</code> sobre blanco</td><td>2.8:1</td><td><span class="badge fix">No cumple · solo decorativo</span></td></tr>
+  </tbody></table></div>
+  <p class="small">Las ilustraciones decorativas llevan <code>aria-hidden="true"</code>. Con <code>prefers-reduced-motion</code> el spinner gira más lento. <code>--text-placeholder</code> y <code>accent-8</code> nunca se usan para información esencial.</p>
+</section>
+
+<!-- ═════ 11 · Checklist ═════ -->
+<section id="checklist" data-title="Lista de verificación" data-g="Calidad">
+  <div class="kicker">11 · Calidad</div>
+  <h2>Antes de entregar</h2>
+  <p class="lead">Marcá cada punto cuando lo hayas comprobado. Tu avance queda guardado en este navegador.</p>
+  <ul class="check" id="checkList"></ul>
+  <p class="small muted" id="checkStat"></p>
+</section>
+
+<!-- ═════ 12 · Recursos ═════ -->
+<section id="recursos" data-title="Recursos y descargas" data-g="Calidad">
+  <div class="kicker">12 · Recursos</div>
+  <h2>Recursos y descargas</h2>
+  <p class="lead">Todo lo que necesita el equipo, en un solo lugar.</p>
+  <div class="cards">
+    <a class="card" style="text-decoration:none;color:inherit" href="{{LINK_DRIVE}}" target="_blank" rel="noopener"><div class="ico"><span class="icon" aria-hidden="true">folder</span></div><h4>Drive · SDK FID ASSETS</h4><p>El zip del paquete y la carpeta ordenada con CSS, ilustraciones, Lotties, logos y <code>tokens.json</code>.</p></a>
+    <a class="card" style="text-decoration:none;color:inherit" href="{{LINK_FIGMA_DOCS}}" target="_blank" rel="noopener"><div class="ico"><span class="icon" aria-hidden="true">palette</span></div><h4>Figma · Variables y documentación</h4><p>La fuente de verdad de los tokens y la documentación completa, con el tablero de pantallas marcadas.</p></a>
+    <a class="card" style="text-decoration:none;color:inherit" href="{{LINK_FIGMA_FLOWS}}" target="_blank" rel="noopener"><div class="ico"><span class="icon" aria-hidden="true">account_tree</span></div><h4>Figma · Flujos de personalización</h4><p>Cada flujo del panel (logo, color, redondeado, tipografía, guardar y vista previa) con todos sus estados.</p></a>
+  </div>
+  <h3>Contenido del paquete</h3>
+  <div class="tablewrap"><table><thead><tr><th>Archivo</th><th>Para qué</th></tr></thead><tbody>
+    <tr><td><code>css/tokens.css</code></td><td>Todos los tokens (primitivos, semánticos, fuente, radios, espaciado, tamaños). <b>Cargar primero.</b></td></tr>
+    <tr><td><code>css/accent-from-primary.css</code></td><td>Calcula la escala <code>--accent-*</code> desde el color <code>primary</code> del cliente (<code>color-mix</code>).</td></tr>
+    <tr><td><code>css/illustrations.css</code></td><td>Clases <code>.ill-primary</code>, <code>.ill-primary-50</code>, <code>.lt-primary</code>, <code>.lt-primary-50</code>.</td></tr>
+    <tr><td><code>css/icons.css</code></td><td>Clase <code>.icon</code> (Material Symbols Rounded, peso 300) y <code>.icon--filled</code>.</td></tr>
+    <tr><td><code>js/tint-lottie.js</code></td><td>Reclasifica los azules de los Lotties de marca.</td></tr>
+    <tr><td><code>illustrations/</code></td><td><code>ill-onboarding</code>, <code>ill-sms</code>, <code>ill-email</code> (siguen la marca) y <code>error-x</code> (fijo).</td></tr>
+    <tr><td><code>lottie/</code></td><td><code>face-scan</code>, <code>card-skeleton</code>, <code>verification</code> (siguen la marca) y <code>success-check</code> (fijo).</td></tr>
+    <tr><td><code>fixed/</code></td><td>Logo FID (fijo, no se personaliza).</td></tr>
+    <tr><td><code>tokens.json</code></td><td>Los mismos tokens en JSON, para herramientas y pipelines.</td></tr>
+    <tr><td><code>DESIGN.md</code></td><td>Contexto completo para humanos y para agentes de IA: reglas, catálogo, recetas y checklist.</td></tr>
+  </tbody></table></div>
+  <div class="callout info"><span class="icon icon--filled" aria-hidden="true">info</span><div><b>Qué no incluye el paquete</b>Las fuentes (Inter, Open Sans y las demás se cargan desde Google Fonts), los íconos Material Symbols Rounded (Google Fonts) y la librería lottie-web. El spinner es CSS.</div></div>
+</section>
+
+<footer class="docfoot">
+  <span>FID SDK · Documentación viva · Actualizada el 19 de noviembre de 2026</span>
+  <span>Si algo contradice a Figma, gana Figma · <a href="{{LINK_FIGMA_DOCS}}" target="_blank" rel="noopener">Abrir Figma</a> · <a href="{{LINK_DRIVE}}" target="_blank" rel="noopener">Abrir Drive</a></span>
+</footer>
+</main>
+</div>
+
+<!-- Paleta de búsqueda -->
+<div class="pal" id="pal" role="dialog" aria-modal="true" aria-label="Buscar"><div class="box"><input id="palIn" placeholder="Buscar sección, token o regla…" autocomplete="off"><ul id="palList"></ul></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>{{LOTTIE_LIB}}</script>
+<script>
+/* ═════ Datos ═════ */
+var DATA = {{DATA_JSON}};
+var LOTTIES = {{LOTTIES_JSON}};
+var SVGS = {{SVGS_JSON}};
+var LOGO = {{LOGO_JSON}};
+var PRINT = /[?&]print=1/.test(location.search);
+if (PRINT) document.documentElement.classList.add('print');
+
+/* ═════ Utilidades ═════ */
+var $ = function (s, r) { return (r || document).querySelector(s); };
+var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+function el(html) { var t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; }
+function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+function toast(msg) { var t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('on'); }, 1600); }
+function copy(text, btn) {
+  var done = function () { toast('Copiado'); if (btn) { btn.classList.add('done'); var o = btn.innerHTML; btn.innerHTML = '<span class="icon" aria-hidden="true">check</span> Copiado'; setTimeout(function () { btn.classList.remove('done'); btn.innerHTML = o; }, 1400); } };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); done(); }
+}
+function svg(name, suffix) { return SVGS[name].replace(/id="([^"]+)"/g, 'id="$1-' + suffix + '"').replace(/url\(#([^)]+)\)/g, 'url(#$1-' + suffix + ')').replace(/href="#([^"]+)"/g, 'href="#$1-' + suffix + '"'); }
+
+/* ═════ Estado de la marca (global) ═════ */
+var HEX = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
+var RADII = { xs: 4, s: 8, m: 16, full: 999 };
+var FONTS = ['Inter', 'Open Sans', 'Roboto', 'Montserrat', 'Poppins', 'Lato', 'Nunito Sans', 'system'];
+var GF = { 'Open Sans': 'Open+Sans:wght@400;600;700', 'Roboto': 'Roboto:wght@400;500;700', 'Montserrat': 'Montserrat:wght@400;500;600;700', 'Poppins': 'Poppins:wght@400;500;600;700', 'Lato': 'Lato:wght@400;700', 'Nunito Sans': 'Nunito+Sans:wght@400;600;700' };
+var PRESETS = [
+  { n: 'Azul FID', primary: '#2A39D0', primaryText: '#FFFFFF' },
+  { n: 'Violeta', primary: '#6D28D9', primaryText: '#FFFFFF' },
+  { n: 'Esmeralda', primary: '#0B6E4F', primaryText: '#FFFFFF' },
+  { n: 'Claro + texto oscuro', primary: '#F5C518', primaryText: '#1A1A1A' }
+];
+var state = { primary: '#2A39D0', primaryText: '#FFFFFF', font: 'Inter', radius: 'full', radiusCustom: 12 };
+try { var saved = JSON.parse(localStorage.getItem('fidsdk-doc-brand') || 'null'); if (saved && HEX.test(saved.primary) && HEX.test(saved.primaryText)) state = Object.assign(state, saved); } catch (e) {}
+var loadedFonts = {};
+function ensureFont(f) { if (!GF[f] || loadedFonts[f]) return; loadedFonts[f] = 1; var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + GF[f] + '&display=swap'; document.head.appendChild(l); }
+function up(h) { return h.toUpperCase(); }
+function norm(h) { h = up(h); return h.length === 4 ? '#' + h[1] + h[1] + h[2] + h[2] + h[3] + h[3] : h; }
+function radiusPx(s) { return s.radius === 'custom' ? Math.max(0, +s.radiusCustom || 0) : RADII[s.radius]; }
+function fontCss(f) { return f === 'system' ? 'system-ui' : "'" + f + "'"; }
+function applyTo(frame, s) {
+  frame.style.setProperty('--accent-9', s.primary);
+  frame.style.setProperty('--button-primary-text', s.primaryText);
+  frame.style.setProperty('--radius-button', radiusPx(s) + 'px');
+  frame.style.setProperty('--font-family-default', fontCss(s.font));
+}
+function lum(hex) { var h = norm(hex); var c = [1, 3, 5].map(function (i) { var v = parseInt(h.slice(i, i + 2), 16) / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+function contrast(a, b) { var la = lum(a), lb = lum(b); return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05); }
+function wcagLevel(r) { return r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : null; }
+function shown(r) { return (Math.floor(r * 10) / 10).toFixed(1) + ':1'; }
+function noticeHtml(fg, bg) {
+  var r = contrast(fg, bg), lv = wcagLevel(r), s = shown(r), link = '<a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html" target="_blank" rel="noopener">Leer más</a>';
+  if (lv) return '<div class="notice"><span class="icon icon--filled" aria-hidden="true">info</span><div><span class="t">Accesibilidad</span>WCAG <span class="lvl">' + lv + '✓</span> (' + s + ') Calificación aprobada.<br>' + link + '</div></div>';
+  return '<div class="notice no"><span class="icon icon--filled" aria-hidden="true">error</span><div><span class="t">Accesibilidad</span>WCAG AA <span class="x">×</span> (' + s + ') Calificación no aprobada. El texto puede ser difícil de leer. ' + link + '</div></div>';
+}
+function hostFrames() { return $$('.sdk-frame'); }
+function applyAll() {
+  hostFrames().forEach(function (f) { if (f.hasAttribute('data-fixed')) return; applyTo(f, state); });
+  ensureFont(state.font);
+  try { localStorage.setItem('fidsdk-doc-brand', JSON.stringify(state)); } catch (e) {}
+  renderOutputs(); renderScale(); tintAll();
+}
+
+/* ═════ Pantalla de ejemplo del SDK (Inicio) ═════ */
+function phoneHtml(id) {
+  return '<div class="sdk-frame sdk-card" data-brand><div class="sdk-screen">' +
+    '<div style="display:grid;place-items:center;height:80px">' + svg('ill-onboarding', 'ph' + id).replace('width="80" height="80"', 'width="72" height="72"') + '</div>' +
+    '<h5 class="sdk-title">Creá tu firma digital</h5><p class="sdk-body">Para emitir tu certificado de firma digital y poder firmar, primero necesitamos confirmar tu identidad.</p>' +
+    '<ul class="sdk-list"><li><span class="sdk-tile"><span class="icon" aria-hidden="true">pin</span></span>Te enviaremos un código para verificar tu correo y teléfono de contacto.</li><li><span class="sdk-tile"><span class="icon" aria-hidden="true">ar_on_you</span></span>Vamos a escanear tu rostro para asegurar que sos vos.</li><li><span class="sdk-tile"><span class="icon" aria-hidden="true">shield_lock</span></span>Vas a crear la clave para firmar tus documentos de forma segura.</li></ul>' +
+    '<div class="sdk-terms"><span class="sdk-checkbox"><span class="icon icon--filled" aria-hidden="true">check</span></span><span>Confirmo que he leído, comprendido y acepto los <a class="sdk-link" href="#probalo" style="font-weight:700;color:var(--text-primary)">términos y condiciones del acuerdo con suscriptores</a></span></div>' +
+    '<button class="sdk-btn">Continuar</button></div>' +
+    '<div class="sdk-footer">POWERED BY ' + LOGO.sm + '</div></div>';
+}
+
+/* ═════ Salidas (configuración / CSS) ═════ */
+function cfgText() {
+  var o = { primary: state.primary, primaryText: state.primaryText, font: state.font, radius: state.radius };
+  if (state.radius === 'custom') o.radiusCustom = +state.radiusCustom || 0;
+  return JSON.stringify(o, null, 2);
+}
+function cssText() {
+  return '.sdk-frame {\n  --accent-9: ' + state.primary + ';                 /* primary: de acá sale toda la escala accent */\n  --button-primary-text: ' + state.primaryText + ';    /* primaryText */\n  --font-family-default: ' + fontCss(state.font) + ', system-ui, sans-serif;   /* font */\n  --radius-button: ' + radiusPx(state) + 'px;                  /* radius */\n}';
+}
+function renderOutputs() {
+  var c = $('[data-live=cfg] pre'); if (c) c.textContent = cfgText();
+  var s = $('[data-live=css] pre'); if (s) s.textContent = cssText();
+  var n = $('#notice'); if (n) n.innerHTML = noticeHtml(state.primaryText, state.primary);
+}
+
+/* ═════ Escala accent ═════ */
+var STEPS = [[1, 'Fondo de la app', 3, 'w', '—'], [2, 'Fondo sutil', 5, 'w', 'brand/surface (tarjetas de marca)'], [3, 'Fondo de elemento', 10, 'w', 'brand/tint, button/tertiary-bg-hover (tiles, fondo de ícono)'], [4, 'Elemento en hover', 15, 'w', 'Aro de foco (3 px) de la celda de código'], [5, 'Elemento activo', 22, 'w', '—'], [6, 'Bordes sutiles', 29, 'w', 'stroke/brand-subtle (borde de tiles y del círculo de ícono)'], [7, 'Borde y foco', 39, 'w', '—'], [8, 'Borde en hover', 54, 'w', 'Variante suave de ilustraciones y escáner facial'], [9, 'Sólido (primary)', 100, 'p', 'brand/default, button/primary-bg, stroke/primary, text/brand, button/tertiary-text, ilustraciones'], [10, 'Sólido en hover', 97, 'b', 'button/primary-bg-hover'], [11, 'Texto de bajo contraste', 87, 'b', '—'], [12, 'Texto de alto contraste', 46, 'b', '—']];
+function mix(hex, pct, withc) { var h = norm(hex), t = pct / 100, o = withc === 'w' ? 255 : 0; var r = [1, 3, 5].map(function (i) { var v = parseInt(h.slice(i, i + 2), 16); return Math.round(v * t + o * (1 - t)); }); return '#' + r.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join('').toUpperCase(); }
+function renderScale() {
+  var box = $('#scale'); if (!box) return; box.innerHTML = '';
+  STEPS.forEach(function (s) { var d = document.createElement('div'); d.style.background = 'var(--accent-' + s[0] + ')'; d.innerHTML = '<span>' + s[0] + '</span>'; box.appendChild(d); });
+  var tb = $('#scaleTable'); if (!tb) return;
+  tb.innerHTML = STEPS.map(function (s) { var hex = s[3] === 'p' ? up(state.primary) : mix(state.primary, s[2], s[3] === 'b' ? 'b' : 'w'); var f = s[3] === 'p' ? 'var(--accent-9)  ← valor inyectado' : 'color-mix(in srgb, var(--accent-9) ' + s[2] + '%, ' + (s[3] === 'b' ? 'black' : 'white') + ')'; return '<tr><td><span class="sw" style="background:' + hex + '"></span><code>accent-' + s[0] + '</code></td><td>' + s[1] + '</td><td><code>' + esc(f) + '</code> <span class="muted small">→ ' + hex + '</span></td><td class="small">' + s[4] + '</td></tr>'; }).join('');
+}
+
+/* ═════ Lotties / ilustraciones ═════ */
+function tintAll() { $$('.lot').forEach(function (h) { if (window.tintLottie && h.dataset.tint === '1') window.tintLottie(h); }); }
+function lottiePrimaryClass(value) { var m = /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(value || ''); if (!m) return null; var r = +m[1], b = +m[3]; if (b - r < 60) return null; return r > 120 ? 'lt-primary-50' : 'lt-primary'; }
+window.tintLottie = function (holder) { holder.querySelectorAll('[fill], [stroke]').forEach(function (node) { ['fill', 'stroke'].forEach(function (prop) { var cls = lottiePrimaryClass(node.getAttribute(prop)); if (cls) node.classList.add(cls, 'lt-' + prop); }); }); };
+function buildGalleries() {
+  var gi = $('#galIll');
+  [['ill-onboarding', 'Onboarding', 'Sigue la marca', 'brand'], ['ill-sms', 'SMS', 'Sigue la marca', 'brand'], ['ill-email', 'Correo', 'Sigue la marca', 'brand'], ['error-x', 'X de error', 'Fijo (feedback)', 'fix']].forEach(function (a, i) {
+    gi.appendChild(el('<div class="gcell"><div class="view">' + svg(a[0], 'g' + i) + '</div><h4>' + a[1] + '</h4><p><span class="hl ' + a[3] + '">' + a[2] + '</span> · <code>' + a[0] + '.svg</code></p></div>'));
+  });
+  var gl = $('#galLot');
+  [['face-scan', 'Escáner facial', true], ['card-skeleton', 'Card skeleton', true], ['verification', 'Verificación', true], ['success-check', 'Check de éxito', false]].forEach(function (a) {
+    var cell = el('<div class="gcell"><div class="view"><div class="lot" style="width:150px;height:150px" data-tint="' + (a[2] ? 1 : 0) + '"></div></div><h4>' + a[1] + '</h4><p><span class="hl ' + (a[2] ? 'brand' : 'fix') + '">' + (a[2] ? 'Sigue la marca' : 'Fijo') + '</span> · <code>' + a[0] + '.json</code></p></div>');
+    gl.appendChild(cell);
+    var holder = $('.lot', cell);
+    var anim = lottie.loadAnimation({ container: holder, renderer: 'svg', loop: !PRINT, autoplay: !PRINT, animationData: LOTTIES[a[0]] });
+    if (a[2]) { anim.addEventListener('DOMLoaded', function () { window.tintLottie(holder); if (PRINT) { anim.goToAndStop(Math.floor(anim.totalFrames * 0.6), true); window.tintLottie(holder); } }); anim.addEventListener('enterFrame', function () { window.tintLottie(holder); }); }
+    else if (PRINT) anim.addEventListener('DOMLoaded', function () { anim.goToAndStop(anim.totalFrames - 1, true); });
+  });
+}
+
+/* ═════ Catálogo de tokens ═════ */
+var GROUPS = [['text', 'Texto'], ['bg', 'Fondos'], ['stroke', 'Bordes'], ['button', 'Botones'], ['feedback', 'Estados'], ['brand', 'Marca y acento'], ['decor', 'Decorativos']];
+function buildCatalog() {
+  var tabs = $('#tokTabs'), panes = $('#tokPanes');
+  var byGroup = {}; DATA.semantic.forEach(function (t) { var g = t.name.replace(/^--/, '').split('-')[0]; if (g === 'accent') g = 'brand'; if (g === 'overlay') g = 'decor'; (byGroup[g] = byGroup[g] || []).push(t); });
+  GROUPS.forEach(function (g, i) {
+    var rows = (byGroup[g[0]] || []);
+    var b = el('<button role="tab" aria-selected="' + (i === 0) + '" data-p="tk-' + g[0] + '">' + g[1] + ' <span class="muted">' + rows.length + '</span></button>'); tabs.appendChild(b);
+    var pane = el('<div class="pane" id="tk-' + g[0] + '"' + (i ? ' hidden' : '') + '><div class="ptitle printonly"><h3>' + g[1] + '</h3></div><div class="tablewrap"><table><thead><tr><th>Token</th><th>Valor</th><th></th><th>Uso</th></tr></thead><tbody></tbody></table></div></div>');
+    var tb = $('tbody', pane);
+    rows.forEach(function (t) {
+      var brand = !!t.brand;
+      var isColor = /^#|^rgba?\(/.test(t.value);
+      var tr = el('<tr data-s="' + esc((t.name + ' ' + t.value + ' ' + (t.uso || '')).toLowerCase()) + '"><td><button class="copytoken" data-copy="var(' + t.name + ')" title="Copiar var(' + t.name + ')"><code>' + t.name + '</code></button></td><td>' + (isColor ? '<span class="sw" style="background:' + t.value + '"></span>' : '') + '<span class="mono small">' + esc(t.value) + '</span>' + (t.ref ? '<div class="small muted mono">' + esc(t.ref) + '</div>' : '') + '</td><td>' + (brand ? '<span class="badge">Marca</span>' : '<span class="badge fix">Fijo</span>') + '</td><td class="small">' + esc(t.uso || '') + '</td></tr>');
+      tb.appendChild(tr);
+    });
+    panes.appendChild(pane);
+  });
+  var inp = $('#tokSearch');
+  inp.addEventListener('input', function () {
+    var q = inp.value.trim().toLowerCase();
+    $$('#tokPanes .pane').forEach(function (p) { var vis = 0; $$('tbody tr', p).forEach(function (r) { var ok = !q || r.dataset.s.indexOf(q) > -1; r.hidden = !ok; if (ok) vis++; }); p.dataset.vis = vis; });
+    if (q) { var first = $$('#tokPanes .pane').filter(function (p) { return +p.dataset.vis > 0; })[0]; if (first) selectTab($('#tokTabs'), first.id); }
+  });
+}
+
+/* ═════ Medidas ═════ */
+function buildMeasures() {
+  var rb = $('#radbox');
+  [['none', 0], ['sm', 4], ['md', 8], ['lg', 12], ['full', 999]].forEach(function (r) { rb.appendChild(el('<div><i style="border-radius:' + Math.min(r[1], 32) + 'px"></i><code>--radius-' + r[0] + '</code><br>' + r[1] + ' px</div>')); });
+  rb.appendChild(el('<div><i style="border-radius:var(--radius-button)" class="sdk-frame"></i><code>--radius-button</code><br>configurable (999)</div>'));
+  var sp = $('#spaces');
+  [['border/width-default', 1], ['spacing/0', 0], ['spacing/4', 4], ['spacing/8', 8], ['spacing/12', 12], ['spacing/16', 16], ['spacing/20', 20], ['size/icon-sm', 20], ['spacing/24', 24], ['spacing/32', 32], ['spacing/40', 40], ['spacing/52', 52], ['spacing/56', 56]].sort(function (a, b) { return a[1] - b[1]; }).forEach(function (s) { sp.appendChild(el('<div><span>' + s[0] + '</span><i style="width:' + Math.max(s[1], 1) * 4 + 'px"></i>' + s[1] + ' px</div>')); });
+  $('#textStyles').innerHTML = DATA.textStyles.map(function (t) { var px = parseInt(t.px, 10); var lh = t.px.split('/')[1].trim(); var ul = /subrayado/.test(t.peso) ? 'text-decoration:underline;' : ''; var w = parseInt(t.peso, 10); return '<tr><td><code>' + t.name + '</code></td><td class="mono small">' + t.px + '</td><td>' + esc(t.peso) + '</td><td><span style="font-size:' + px + 'px;line-height:' + lh + 'px;font-weight:' + w + ';' + ul + 'font-family:var(--font-family-default);white-space:nowrap">Firma digital segura</span></td></tr>'; }).join('');
+}
+
+/* ═════ Íconos ═════ */
+function buildIcons() {
+  var g = $('#iconGrid');
+  ['info', 'error', 'check_circle', 'warning', 'close', 'check', 'add', 'delete', 'sync', 'download', 'visibility', 'lock', 'pin', 'ar_on_you', 'shield_lock', 'mail', 'schedule', 'help', 'person_add', 'history'].forEach(function (n) { g.appendChild(el('<button class="ib" data-copy=\'&lt;span class="icon" aria-hidden="true"&gt;' + n + '&lt;/span&gt;\' title="Copiar el HTML del ícono"><span class="icon" aria-hidden="true">' + n + '</span>' + n + '</button>')); });
+  var t = $('#fillToggle'); if (t) t.addEventListener('change', function () { $$('#iconGrid .icon').forEach(function (i) { i.classList.toggle('icon--filled', t.checked); }); });
+}
+
+/* ═════ Accesibilidad ═════ */
+function buildA11y() {
+  var fg = $('#aFg'), bg = $('#aBg'), fgp = $('#aFgPk'), bgp = $('#aBgPk');
+  function run() {
+    var f = HEX.test(fg.value) ? norm(fg.value) : '#FFFFFF', b = HEX.test(bg.value) ? norm(bg.value) : '#2A39D0';
+    fg.classList.toggle('bad', !HEX.test(fg.value)); bg.classList.toggle('bad', !HEX.test(bg.value));
+    fgp.value = f.toLowerCase(); bgp.value = b.toLowerCase();
+    var r = contrast(f, b), lv = wcagLevel(r);
+    $('#a11yNotice').innerHTML = noticeHtml(f, b);
+    $$('#levels .lv').forEach(function (n) { n.classList.toggle('on', n.dataset.l === lv || (n.dataset.l === 'A' && lv === null && false)); });
+    $('#gauge .pt').style.left = Math.min(100, (Math.min(r, 21) / 21) * 100) + '%';
+  }
+  [fg, bg].forEach(function (i) { i.addEventListener('input', run); });
+  fgp.addEventListener('input', function () { fg.value = up(fgp.value); run(); }); bgp.addEventListener('input', function () { bg.value = up(bgp.value); run(); });
+  fg.value = '#FFFFFF'; bg.value = '#2A39D0'; run(); window.__a11y = run;
+}
+
+/* ═════ Checklist ═════ */
+var CHECKS = DATA.checklist;
+function buildChecklist() {
+  var ul = $('#checkList'), done = {}; try { done = JSON.parse(localStorage.getItem('fidsdk-doc-check') || '{}'); } catch (e) {}
+  CHECKS.forEach(function (t, i) { var li = el('<li><label><input type="checkbox" data-i="' + i + '"' + (done[i] ? ' checked' : '') + '><span>' + t + '</span></label></li>'); ul.appendChild(li); });
+  function stat() { var n = $$('#checkList input:checked').length, tot = CHECKS.length; $('#checkStat').textContent = n + ' de ' + tot + ' verificados' + (n === tot ? ' · ¡listo para entregar!' : ''); var o = {}; $$('#checkList input').forEach(function (c) { if (c.checked) o[c.dataset.i] = 1; }); try { localStorage.setItem('fidsdk-doc-check', JSON.stringify(o)); } catch (e) {} }
+  ul.addEventListener('change', stat); stat();
+}
+
+/* ═════ Tabs y copiar ═════ */
+function selectTab(tabs, id) {
+  $$('button', tabs).forEach(function (b) { b.setAttribute('aria-selected', b.dataset.p === id); });
+  var panes = [];
+  if (tabs.id === 'tokTabs') panes = $$('#tokPanes .pane');
+  else { var n = tabs.nextElementSibling; while (n && !/^(H3|H4|SECTION)$/.test(n.tagName)) { if (n.classList.contains('pane')) panes.push(n); n = n.nextElementSibling; } }
+  panes.forEach(function (p) { p.hidden = p.id !== id; });
+}
+document.addEventListener('click', function (e) {
+  var tb = e.target.closest('.tabs button'); if (tb) selectTab(tb.parentElement, tb.dataset.p);
+  var cb = e.target.closest('.code .copy'); if (cb) copy(cb.closest('.code').querySelector('pre').textContent, cb);
+  var ct = e.target.closest('[data-copy]'); if (ct) copy(ct.getAttribute('data-copy').replace(/&lt;/g, '<').replace(/&gt;/g, '>'), null);
+});
+
+/* ═════ Navegación: índice, scrollspy, progreso ═════ */
+function buildNav() {
+  var secs = $$('main section'), toc = $('#toc'), grp = '', jump = $('#jump'), ptoc = $('#printToc'), n = 0;
+  secs.forEach(function (s, i) {
+    var g = s.dataset.g; if (g !== grp) { grp = g; toc.appendChild(el('<div class="grp">' + g + '</div>')); }
+    toc.appendChild(el('<a href="#' + s.id + '" data-id="' + s.id + '"><span class="n">' + i + '</span>' + s.dataset.title + '</a>'));
+    jump.appendChild(el('<option value="' + s.id + '">' + i + ' · ' + s.dataset.title + '</option>'));
+    if (i) ptoc.appendChild(el('<li><a href="#' + s.id + '"><b>' + i + '</b>' + s.dataset.title + '<small>' + g + '</small></a></li>'));
+  });
+  jump.addEventListener('change', function () { location.hash = jump.value; });
+  var links = $$('#toc a');
+  function spy() { var y = scrollY + 140, cur = secs[0]; secs.forEach(function (s) { if (s.offsetTop <= y) cur = s; }); links.forEach(function (a) { a.classList.toggle('on', a.dataset.id === cur.id); }); jump.value = cur.id; var h = document.documentElement; $('#prog').style.width = Math.min(100, (scrollY / (h.scrollHeight - innerHeight)) * 100) + '%'; }
+  addEventListener('scroll', spy, { passive: true }); spy();
+}
+
+/* ═════ Paleta de búsqueda ═════ */
+function buildPalette() {
+  var items = [];
+  $$('main section').forEach(function (s) { items.push({ t: s.dataset.title, k: 'Sección', go: function () { location.hash = s.id; } }); });
+  DATA.semantic.forEach(function (t) { items.push({ t: t.name, k: 'Token · ' + (t.uso || t.value), q: (t.name + ' ' + t.value + ' ' + (t.uso || '')).toLowerCase(), go: function () { location.hash = 'catalogo'; var i = $('#tokSearch'); i.value = t.name; i.dispatchEvent(new Event('input')); } }); });
+  $$('.rules li').forEach(function (r, i) { items.push({ t: 'Regla ' + (i + 1) + ': ' + r.textContent.slice(0, 70) + '…', k: 'Regla', q: r.textContent.toLowerCase(), go: function () { location.hash = 'tokens'; } }); });
+  var pal = $('#pal'), inp = $('#palIn'), list = $('#palList'), sel = 0, cur = [];
+  function render() { var q = inp.value.trim().toLowerCase(); cur = items.filter(function (x) { return !q || (x.q || x.t.toLowerCase()).indexOf(q) > -1; }).slice(0, 30); sel = 0; list.innerHTML = cur.map(function (x, i) { return '<li class="' + (i === 0 ? 'on' : '') + '" data-i="' + i + '">' + esc(x.t) + '<small>' + esc(x.k) + '</small></li>'; }).join(''); }
+  function open() { pal.classList.add('open'); inp.value = ''; render(); inp.focus(); } function close() { pal.classList.remove('open'); }
+  function go(i) { if (cur[i]) { close(); cur[i].go(); } }
+  $('#openPal').addEventListener('click', open); $('#openPalM').addEventListener('click', open);
+  inp.addEventListener('input', render);
+  list.addEventListener('click', function (e) { var li = e.target.closest('li'); if (li) go(+li.dataset.i); });
+  pal.addEventListener('click', function (e) { if (e.target === pal) close(); });
+  addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); open(); return; }
+    if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); open(); return; }
+    if (!pal.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + cur.length) % Math.max(cur.length, 1); $$('#palList li').forEach(function (l, i) { l.classList.toggle('on', i === sel); }); }
+    if (e.key === 'Enter') go(sel);
+  });
+}
+
+/* ═════ Playground (controles) ═════ */
+function buildPlayground() {
+  $('#phoneWrap').innerHTML = phoneHtml('a');
+  var pbs = $('#printBrands');
+  PRESETS.slice(0, 3).concat([PRESETS[3]]).forEach(function (p, i) { var w = el('<div style="width:236px">' + phoneHtml('p' + i) + '<div class="small muted" style="text-align:center;margin-top:6px">' + p.n + '</div></div>'); pbs.appendChild(w); var f = $('.sdk-frame', w); f.setAttribute('data-fixed', '1'); applyTo(f, { primary: p.primary, primaryText: p.primaryText, font: 'Inter', radius: 'full' }); f.style.zoom = .72; });
+  var sf = $('#selFont'); FONTS.forEach(function (f) { sf.appendChild(el('<option>' + (f === 'system' ? 'system' : f) + '</option>')); });
+  var pr = $('#presets'); PRESETS.forEach(function (p) { var b = el('<button class="preset"><i style="background:' + p.primary + '"></i>' + p.n + '</button>'); b.addEventListener('click', function () { state.primary = p.primary; state.primaryText = p.primaryText; sync(); applyAll(); }); pr.appendChild(b); });
+  var ip = $('#inPrimary'), it = $('#inText'), pp = $('#pkPrimary'), pt = $('#pkText'), ir = $('#inRadius');
+  function sync() { ip.value = up(state.primary); it.value = up(state.primaryText); pp.value = norm(state.primary).toLowerCase(); pt.value = norm(state.primaryText).toLowerCase(); sf.value = state.font; $$('#segRadius button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.r === state.radius); }); ir.hidden = state.radius !== 'custom'; ir.value = state.radiusCustom; ip.classList.remove('bad'); it.classList.remove('bad'); $('#hintPrimary').textContent = 'HEX #RRGGBB o #RGB.'; $('#hintText').textContent = 'Blanco por defecto.'; }
+  function onHex(input, key, hint) { input.addEventListener('input', function () { var v = input.value.trim(); if (v && v[0] !== '#') v = '#' + v; if (HEX.test(v)) { state[key] = up(v); input.classList.remove('bad'); $('#' + hint).textContent = key === 'primary' ? 'HEX #RRGGBB o #RGB.' : 'Blanco por defecto.'; pp.value = norm(state.primary).toLowerCase(); pt.value = norm(state.primaryText).toLowerCase(); applyAll(); } else { input.classList.add('bad'); $('#' + hint).textContent = 'HEX inválido: el SDK usaría el valor por defecto.'; } }); }
+  onHex(ip, 'primary', 'hintPrimary'); onHex(it, 'primaryText', 'hintText');
+  pp.addEventListener('input', function () { state.primary = up(pp.value); sync(); applyAll(); }); pt.addEventListener('input', function () { state.primaryText = up(pt.value); sync(); applyAll(); });
+  sf.addEventListener('change', function () { state.font = sf.value; applyAll(); });
+  $('#segRadius').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; state.radius = b.dataset.r; sync(); applyAll(); });
+  ir.addEventListener('input', function () { state.radiusCustom = +ir.value || 0; applyAll(); });
+  sync();
+}
+
+/* ═════ Inicio ═════ */
+document.addEventListener('DOMContentLoaded', function () {
+  $('#convIn') && $('#convIn').addEventListener('input', function () { $('#convOut').textContent = '--' + this.value.trim().replace(/\//g, '-'); });
+  if ($('#convOut')) $('#convOut').textContent = '--' + $('#convIn').value.replace(/\//g, '-');
+  buildPlayground(); buildCatalog(); buildMeasures(); buildIcons(); buildGalleries(); buildA11y(); buildChecklist(); buildNav(); buildPalette();
+  applyAll();
+  if (PRINT) { $$('.pane').forEach(function (p) { p.hidden = false; }); document.fonts && document.fonts.ready.then(function () { setTimeout(function () { document.documentElement.setAttribute('data-ready', '1'); }, 600); }); }
+});
+</script>
+</body>
+</html>
