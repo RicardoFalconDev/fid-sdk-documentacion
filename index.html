@@ -833,17 +833,7 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
     <div aria-live="polite"><div class="chain-h" id="tkHead"></div><ol class="chain" id="tkChain"></ol></div>
   </div>
 
-  <h3 class="liveonly">¿Cambia con la marca?</h3>
-  <div class="liveonly">
-    <p>Si el cliente pasa del azul de FID con texto blanco a un amarillo <code>#F5C518</code> con texto <code>#1A1A1A</code>, ¿qué elementos cambian? Marcá tu respuesta en cada uno y comprobala.</p>
-    <ol class="quiz" id="quiz"></ol>
-    <div class="qbar">
-      <span class="qscore" id="qScore" aria-live="polite">Te faltan 8 respuestas.</span>
-      <button class="btn pri" id="qCheck" disabled>Comprobar</button>
-      <button class="btn" id="qSwap" hidden>Ver la marca original</button>
-      <button class="btn" id="qReset" hidden>Jugar de nuevo</button>
-    </div>
-  </div>
+  <p class="liveonly">Al final del documento hay un <a href="#repaso">repaso</a> para comprobar lo que aprendiste.</p>
 
   <!-- PDF: la misma información en una tabla -->
   <div class="printonly"><div class="tablewrap"><table><thead><tr><th>Elemento</th><th>Token</th><th>Sale de</th><th>¿Cambia con la marca?</th></tr></thead><tbody id="chainPrint"></tbody></table></div></div>
@@ -1254,6 +1244,19 @@ function a11yNotice(primaryText, primary) {     <span class="tk-c">// aviso del 
   <div class="note"><b>Qué no incluye el paquete</b>Las fuentes (Inter, Open Sans y las demás se cargan desde Google Fonts), los íconos Material Symbols Rounded (Google Fonts) y la librería lottie-web. El spinner es CSS.</div>
 </section>
 
+<!-- ═════ Repaso ═════ -->
+<section id="repaso" class="liveonly" data-title="Comprobá lo que aprendiste" data-g="Repaso">
+  <h2>Comprobá lo que aprendiste</h2>
+  <p class="lead">Si el cliente pasa del azul de FID con texto blanco a un amarillo <code>#F5C518</code> con texto <code>#1A1A1A</code>, ¿qué elementos del SDK cambian? Marcá tu respuesta en cada uno y comprobala.</p>
+  <ol class="quiz" id="quiz"></ol>
+  <div class="qbar">
+    <span class="qscore" id="qScore" aria-live="polite">Te faltan 8 respuestas.</span>
+    <button class="btn pri" id="qCheck" disabled>Comprobar</button>
+    <button class="btn" id="qSwap" hidden>Ver la marca original</button>
+    <button class="btn" id="qReset" hidden>Jugar de nuevo</button>
+  </div>
+</section>
+
 <footer class="docfoot">
   <span>Personalización del SDK</span>
   <span>Si algo contradice a Figma, gana Figma. <a href="https://www.figma.com/design/o5RhfPgp35VOEXuybrIL9W/FID-SDK-%E2%80%94-Variables--dev---refactor-?node-id=51-2936" target="_blank" rel="noopener">Figma</a> y <a href="https://drive.google.com/drive/folders/1ErW-_ImyoMbPjmgqAmvuWtwEqSEJ39Cj" target="_blank" rel="noopener">Drive</a>.</span>
@@ -1476,7 +1479,7 @@ function buildNav() {
     var g = s.dataset.g; if (g !== grp) { grp = g; toc.appendChild(el('<div class="grp">' + g + '</div>')); }
     toc.appendChild(el('<a href="#' + s.id + '" data-id="' + s.id + '">' + s.dataset.title + '</a>'));
     jump.appendChild(el('<option value="' + s.id + '">' + s.dataset.title + '</option>'));
-    if (i) ptoc.appendChild(el('<li><a href="#' + s.id + '">' + s.dataset.title + '<small>' + g + '</small></a></li>'));
+    if (i && !s.classList.contains('liveonly')) ptoc.appendChild(el('<li><a href="#' + s.id + '">' + s.dataset.title + '<small>' + g + '</small></a></li>'));
   });
   jump.addEventListener('change', function () { location.hash = jump.value; });
   var links = $$('#toc a');
