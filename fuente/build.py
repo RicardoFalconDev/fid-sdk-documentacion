@@ -12,7 +12,6 @@ LOTTIE_LIB = HERE / 'lottie.min.js'
 
 LINKS = {
     'LINK_FIGMA_DOCS': 'https://www.figma.com/design/o5RhfPgp35VOEXuybrIL9W/FID-SDK-%E2%80%94-Variables--dev---refactor-?node-id=51-2936',
-    'LINK_FIGMA_FLOWS': 'https://www.figma.com/design/rhjvEfoG55pNtRCt1yxaP0/-Exploraciones--FID-by-Lakaut?node-id=16008-6274',
     'LINK_DRIVE': 'https://drive.google.com/drive/folders/1ErW-_ImyoMbPjmgqAmvuWtwEqSEJ39Cj',
 }
 
