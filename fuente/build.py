@@ -133,7 +133,7 @@ repl = {
     'CODE_ICONS': hl(icons_snip),
     'CODE_A11Y': hl(a11y_js),
     'LOTTIE_LIB': read(LOTTIE_LIB).replace('</script', '<\\/script'),
-    'DATA_JSON': js({'semantic': semantic, 'textStyles': text_styles, 'checklist': checklist}),
+    'DATA_JSON': js({'semantic': semantic, 'primitive': {k: v['value'] for k, v in tokens['primitive'].items()}, 'textStyles': text_styles, 'checklist': checklist}),
     'LOTTIES_JSON': js(lotties),
     'SVGS_JSON': js(svgs),
     'LOGO_JSON': js({'full': logo, 'sm': logo_sm}),

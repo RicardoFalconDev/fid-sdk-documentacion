@@ -249,6 +249,67 @@ td code{white-space:nowrap}
 .conv input{height:44px;border:1px solid var(--stroke-strong);border-radius:var(--radius-md);padding:0 var(--sp-3);font:500 15px 'JetBrains Mono';width:100%}
 .conv output{display:flex;align-items:center;height:44px;border:1px solid var(--stroke-brand-subtle);background:var(--brand-tint);border-radius:var(--radius-md);padding:0 var(--sp-3);font:500 15px 'JetBrains Mono'}
 
+/* Cadena de tokens y juego */
+.btn[hidden]{display:none}
+.btn.pri{background:var(--brand-default);border-color:var(--brand-default);color:var(--button-primary-text)}
+.btn.pri:hover{background:var(--button-primary-bg-hover)}
+.btn:disabled{background:var(--button-disabled-bg);border-color:var(--button-disabled-border);color:var(--button-disabled-text);cursor:not-allowed}
+.tk-lab{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:var(--sp-8);align-items:start;margin:var(--sp-4) 0 var(--sp-6)}
+.pick{display:flex;flex-direction:column;border-top:1px solid var(--stroke-subtle)}
+.pk{display:grid;grid-template-columns:112px 1fr;gap:var(--sp-3);align-items:center;width:100%;padding:var(--sp-3);border:0;border-bottom:1px solid var(--stroke-subtle);border-left:2px solid transparent;background:transparent;text-align:left;color:var(--text-secondary);font-size:var(--font-size-14);line-height:var(--font-line-height-20)}
+.pk:hover{background:var(--bg-surface);color:var(--text-primary)}
+.pk[aria-pressed=true]{border-left-color:var(--brand-default);background:var(--bg-surface);color:var(--text-primary);font-weight:600}
+.pk-s,.q-s{display:flex;justify-content:center;align-items:center;pointer-events:none}
+.pk-s .sdk-btn,.q-s .sdk-btn{width:auto;min-width:0;height:32px;padding:0 var(--sp-3);font-size:13px;line-height:1}
+.pk-s .badge-error,.q-s .badge-error{font-size:11px;padding:0 var(--sp-2);white-space:nowrap}
+.pk-s .sdk-otp-cell,.q-s .sdk-otp-cell{width:32px;height:38px;font-size:16px}
+.pk-s .sdk-link,.q-s .sdk-link{font-size:13px;white-space:nowrap}
+.chain-h{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2);margin:0 0 var(--sp-6);font-size:var(--font-size-18);line-height:var(--font-line-height-26);font-weight:600;color:var(--text-primary)}
+.chain{list-style:none;margin:0;padding:0}
+.hop{position:relative;padding:0 0 var(--sp-6) var(--sp-8)}
+.hop:last-child{padding-bottom:0}
+.hop::before{content:'';position:absolute;left:4px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--bg-default);border:2px solid var(--stroke-strong)}
+.hop::after{content:'';position:absolute;left:10px;top:22px;bottom:2px;width:2px;background:var(--stroke-default)}
+.hop:last-child::after{display:none}
+.hop.b::before{border-color:var(--brand-default);background:var(--brand-default)}
+.hop.b::after{background:var(--stroke-brand-subtle)}
+.hk{display:block;font-size:var(--font-size-12);line-height:var(--font-line-height-16);font-weight:600;color:var(--text-tertiary);margin-bottom:var(--sp-1)}
+.hop code{font-size:13px}
+.hd{display:block;font-size:var(--font-size-14);line-height:var(--font-line-height-20);color:var(--text-secondary);margin-top:var(--sp-1)}
+.hv{display:inline-flex;align-items:center;gap:var(--sp-2);margin-left:var(--sp-2);font:500 12px 'JetBrains Mono';color:var(--text-secondary);vertical-align:middle}
+.hv i{display:block;width:16px;height:16px;border-radius:var(--radius-sm);border:1px solid var(--stroke-default)}
+@keyframes hopIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  .chain.go .hop{animation:hopIn .3s both}
+  .chain.go .hop:nth-child(2){animation-delay:.09s}
+  .chain.go .hop:nth-child(3){animation-delay:.18s}
+  .chain.go .hop:nth-child(4){animation-delay:.27s}
+  .q-s.live,.q-s.live *{transition:background-color .6s,color .6s,border-color .6s}
+}
+.quiz{list-style:none;margin:var(--sp-4) 0;padding:0}
+.qrow{display:grid;grid-template-columns:136px minmax(0,1fr) auto;gap:var(--sp-4);align-items:center;padding:var(--sp-3) 0;border-top:1px solid var(--stroke-subtle)}
+.qrow:last-child{border-bottom:1px solid var(--stroke-subtle)}
+.q-s{min-height:52px;padding:var(--sp-2);background:var(--bg-surface);border-radius:var(--radius-md)}
+.q-n b{display:block;font-weight:600}
+.q-r{display:block;font-size:var(--font-size-14);line-height:var(--font-line-height-20);color:var(--text-secondary);margin-top:var(--sp-1)}
+.q-r .ok{font-weight:600;color:var(--feedback-success-text)}
+.q-r .bad{font-weight:600;color:var(--feedback-error-text)}
+.qt{display:inline-flex;gap:var(--sp-1);padding:var(--sp-1);background:var(--bg-subtle);border-radius:var(--radius-md)}
+.qt button{border:0;background:transparent;padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-sm);font-size:var(--font-size-14);font-weight:500;color:var(--text-secondary);white-space:nowrap}
+.qt button[aria-pressed=true]{background:var(--bg-default);color:var(--text-primary);font-weight:600}
+.qt button:disabled{cursor:default}
+.qrow.ok .qt button[aria-pressed=true]{color:var(--feedback-success-text)}
+.qrow.bad .qt button[aria-pressed=true]{color:var(--feedback-error-text)}
+.qbar{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-top:var(--sp-6)}
+.qscore{font-weight:600;margin-right:var(--sp-2)}
+.printonly > .tablewrap{flex:1}
+@media (max-width:980px){ .tk-lab{grid-template-columns:1fr} }
+@media (max-width:640px){
+  .qrow{grid-template-columns:112px minmax(0,1fr)}
+  .qt{grid-column:1/-1;justify-self:start}
+  .pk{grid-template-columns:96px 1fr}
+}
+
 /* Barra superior móvil */
 .topbar{display:none}
 @media (max-width:980px){
@@ -313,7 +374,7 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   main{max-width:none;padding:0}
   section,section + section{padding-top:14mm;margin-top:0;border-top:0}
   section.hero{break-before:auto;padding-top:0}
-  #salida,#contrato,#catalogo,#medidas,#recetas,#ilustraciones,#accesibilidad,#recursos{break-before:page;padding-top:0}
+  #salida,#cadena,#contrato,#catalogo,#medidas,#recetas,#ilustraciones,#accesibilidad,#recursos{break-before:page;padding-top:0}
   .spec td:nth-child(2),.spec td:nth-child(3){white-space:nowrap}
   tr{break-inside:avoid}
   .cards{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--sp-4)}
@@ -477,6 +538,33 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
     <li><span><b>Links</b>: <code>--text-link</code> + subrayado. Texto sobre fondo oscuro: <code>--text-inverse</code>. Texto sobre el botón primario: <code>--button-primary-text</code>.</span></li>
     <li><span><b>Antes de entregar</b>, buscá en el diff <code>#[0-9a-fA-F]{3,8}</code>, <code>rgb(</code>, <code>--gray-</code>, <code>--indigo-</code>. Tiene que dar 0 resultados en archivos de componentes.</span></li>
   </ol>
+</section>
+
+<!-- ═════ Cómo se conectan los tokens ═════ -->
+<section id="cadena" data-title="Cómo se conectan los tokens" data-g="Entender">
+  <h2>Cómo se conectan los tokens</h2>
+  <p class="lead">Cada color del SDK recorre la misma cadena: el CSS del componente usa un token semántico, y ese token apunta a la escala de marca o a un color fijo. Elegí un elemento y seguí su camino hasta el origen.</p>
+
+  <h3 class="liveonly">Seguí un token</h3>
+  <div class="tk-lab liveonly">
+    <div class="pick" id="tkPick" role="group" aria-label="Elementos del SDK"></div>
+    <div aria-live="polite"><div class="chain-h" id="tkHead"></div><ol class="chain" id="tkChain"></ol></div>
+  </div>
+
+  <h3 class="liveonly">¿Cambia con la marca?</h3>
+  <div class="liveonly">
+    <p>Si el cliente pasa del azul de FID con texto blanco a un amarillo <code>#F5C518</code> con texto <code>#1A1A1A</code>, ¿qué elementos cambian? Marcá tu respuesta en cada uno y comprobala.</p>
+    <ol class="quiz" id="quiz"></ol>
+    <div class="qbar">
+      <span class="qscore" id="qScore" aria-live="polite">Te faltan 8 respuestas.</span>
+      <button class="btn pri" id="qCheck" disabled>Comprobar</button>
+      <button class="btn" id="qSwap" hidden>Ver la marca original</button>
+      <button class="btn" id="qReset" hidden>Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <!-- PDF: la misma información en una tabla -->
+  <div class="printonly"><div class="tablewrap"><table><thead><tr><th>Elemento</th><th>Token</th><th>Sale de</th><th>¿Cambia con la marca?</th></tr></thead><tbody id="chainPrint"></tbody></table></div></div>
 </section>
 
 <!-- ═════ 3 · Contrato ═════ -->
@@ -789,7 +877,7 @@ function applyAll() {
   hostFrames().forEach(function (f) { if (f.hasAttribute('data-fixed')) return; applyTo(f, state); });
   ensureFont(state.font);
   try { localStorage.setItem('fidsdk-doc-brand', JSON.stringify(state)); } catch (e) {}
-  renderOutputs(); renderScale(); tintAll();
+  renderOutputs(); renderScale(); tintAll(); var tkc = document.getElementById('tkChain'); if (tkc && tkc.children.length) renderChain(false);
 }
 
 /* ═════ Pantalla de ejemplo del SDK (Inicio) ═════ */
@@ -989,10 +1077,131 @@ function buildPlayground() {
 }
 
 /* ═════ Inicio ═════ */
+
+/* ═════ Cadena de tokens y juego ═════ */
+var ITEMS = [
+  { id: 'btn', name: 'Fondo del botón primario', token: '--button-primary-bg', css: '.sdk-btn { background: var(--button-primary-bg); }', sample: '<span class="sdk-btn">Continuar</span>', sel: '.sdk-btn', prop: 'backgroundColor' },
+  { id: 'btnText', name: 'Texto del botón primario', token: '--button-primary-text', css: '.sdk-btn { color: var(--button-primary-text); }', sample: '<span class="sdk-btn">Continuar</span>', sel: '.sdk-btn', prop: 'color' },
+  { id: 'check', name: 'Casilla marcada', token: '--brand-default', css: '.sdk-checkbox { background: var(--brand-default); }', sample: '<span class="sdk-checkbox"><span class="icon icon--filled">check</span></span>', sel: '.sdk-checkbox', prop: 'backgroundColor' },
+  { id: 'tile', name: 'Fondo del tile de ícono', token: '--brand-tint', css: '.sdk-tile { background: var(--brand-tint); }', sample: '<span class="sdk-tile"><span class="icon">pin</span></span>', sel: '.sdk-tile', prop: 'backgroundColor' },
+  { id: 'focus', name: 'Borde de un campo en foco', token: '--stroke-primary', css: '.sdk-otp-cell.is-focus { border-color: var(--stroke-primary); }', sample: '<span class="sdk-otp-cell is-focus">4</span>', sel: '.sdk-otp-cell', prop: 'borderTopColor' },
+  { id: 'link', name: 'Link', token: '--text-link', css: '.sdk-link { color: var(--text-link); }', sample: '<span class="sdk-link">Olvidé mi clave</span>', sel: '.sdk-link', prop: 'color' },
+  { id: 'error', name: 'Texto de error', token: '--feedback-error-text', css: '.badge-error { color: var(--feedback-error-text); }', sample: '<span class="badge-error">Código incorrecto</span>', sel: '.badge-error', prop: 'color' },
+  { id: 'sec', name: 'Fondo del botón secundario', token: '--button-secondary-bg', css: '.sdk-btn--secondary { background: var(--button-secondary-bg); }', sample: '<span class="sdk-btn sdk-btn--secondary">Cancelar</span>', sel: '.sdk-btn', prop: 'backgroundColor' }
+];
+function tokData(name) { return DATA.semantic.filter(function (t) { return t.name === name; })[0]; }
+function accentStep(ref) { var m = /^--accent-(\d+)$/.exec(ref || ''); return m ? +m[1] : null; }
+function stepOf(n) { return STEPS.filter(function (s) { return s[0] === n; })[0]; }
+function resolveToken(name) {
+  if (name === '--button-primary-text') return up(state.primaryText);
+  var t = tokData(name), n = accentStep(t.ref);
+  if (n === null) return t.value;
+  if (n === 9) return up(state.primary);
+  var st = stepOf(n); return mix(state.primary, st[2], st[3] === 'b' ? 'b' : 'w');
+}
+function originOf(it) {
+  var t = tokData(it.token), n = accentStep(t.ref);
+  if (it.token === '--button-primary-text') return { brand: true, kind: 'text', ref: t.ref, short: '<code>primaryText</code>' };
+  if (n !== null) return { brand: true, kind: 'accent', n: n, ref: t.ref, short: n === 9 ? '<code>primary</code>' : '<code>primary</code>, vía <code>--accent-' + n + '</code>' };
+  return { brand: false, kind: 'fixed', ref: t.ref, short: 'Fijo (<code>' + t.ref + '</code>)' };
+}
+function swatch(hex) { return '<span class="hv"><i style="background:' + hex + '"></i>' + hex + '</span>'; }
+function chainHtml(it) {
+  var t = tokData(it.token), o = originOf(it), h = [];
+  h.push('<li class="hop"><span class="hk">Componente</span><code>' + esc(it.css) + '</code><span class="hd">El CSS que escribís. Nunca lleva un color literal.</span></li>');
+  h.push('<li class="hop' + (o.brand ? ' b' : '') + '"><span class="hk">Token semántico</span><code>' + t.name + '</code>' + swatch(resolveToken(it.token)) + '<span class="hd">' + esc(t.uso || '') + '</span></li>');
+  if (o.kind === 'accent') {
+    var st = stepOf(o.n);
+    h.push('<li class="hop b"><span class="hk">Escala de marca</span><code>--accent-' + o.n + '</code><span class="hd">' + (o.n === 9 ? 'Es el punto de inyección: acá entra el color del cliente.' : 'Se calcula sola: ' + st[2] + ' % de <code>--accent-9</code> sobre ' + (st[3] === 'b' ? 'negro' : 'blanco') + '.') + '</span></li>');
+    h.push('<li class="hop b"><span class="hk">Lo define</span><code>primary</code><span class="hd">El cliente, en la configuración. Si no lo define, vale <code>#2A39D0</code> (<code>--indigo-9</code>).</span></li>');
+  } else if (o.kind === 'text') {
+    h.push('<li class="hop"><span class="hk">Valor por defecto</span><code>' + o.ref + '</code>' + swatch(DATA.primitive[o.ref] || t.value) + '<span class="hd">Primitivo que se usa si el cliente no dice nada.</span></li>');
+    h.push('<li class="hop b"><span class="hk">Lo define</span><code>primaryText</code><span class="hd">El cliente, en la configuración. Se escribe directo en <code>--button-primary-text</code>.</span></li>');
+  } else {
+    h.push('<li class="hop"><span class="hk">Primitivo</span><code>' + o.ref + '</code>' + swatch(DATA.primitive[o.ref] || t.value) + '<span class="hd">Color crudo de una escala de 12 pasos.</span></li>');
+    h.push('<li class="hop"><span class="hk">Lo define</span><span>El sistema FID</span><span class="hd">Es fijo: la marca del cliente no lo toca.</span></li>');
+  }
+  return h.join('');
+}
+var tkSel = 'btn';
+function renderChain(animate) {
+  var it = ITEMS.filter(function (x) { return x.id === tkSel; })[0], o = originOf(it);
+  $('#tkHead').innerHTML = esc(it.name) + (o.brand ? ' <span class="badge">Cambia con la marca</span>' : ' <span class="badge fix">Fijo</span>');
+  var c = $('#tkChain'); c.innerHTML = chainHtml(it);
+  if (animate) { c.classList.remove('go'); void c.offsetWidth; c.classList.add('go'); }
+}
+function buildChain() {
+  var p = $('#tkPick');
+  ITEMS.forEach(function (it) {
+    var b = el('<button class="pk" type="button" aria-pressed="' + (it.id === tkSel) + '" data-id="' + it.id + '"><span class="pk-s sdk-frame" aria-hidden="true">' + it.sample + '</span><span>' + esc(it.name) + '</span></button>');
+    b.addEventListener('click', function () { tkSel = it.id; $$('.pk', p).forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); renderChain(true); });
+    p.appendChild(b);
+  });
+  renderChain(false);
+}
+
+var Q_BASE = { primary: '#2A39D0', primaryText: '#FFFFFF', font: 'Inter', radius: 'full' };
+var Q_ALT = { primary: '#F5C518', primaryText: '#1A1A1A', font: 'Inter', radius: 'full' };
+var qTruth = {}, qGuess = {}, qDone = false, qShowingAlt = false;
+function qFrames() { return $$('#quiz .q-s'); }
+function qApply(b) { qFrames().forEach(function (f) { applyTo(f, b); }); }
+function buildQuiz() {
+  var list = $('#quiz');
+  ITEMS.forEach(function (it) {
+    var li = el('<li class="qrow" data-id="' + it.id + '"><span class="q-s sdk-frame" data-fixed aria-hidden="true">' + it.sample + '</span><span class="q-n"><b>' + esc(it.name) + '</b><span class="q-r" hidden></span></span><span class="qt" role="group" aria-label="¿' + esc(it.name) + ' cambia con la marca?"><button type="button" data-v="1" aria-pressed="false">Cambia</button><button type="button" data-v="0" aria-pressed="false">No cambia</button></span></li>');
+    list.appendChild(li);
+  });
+  /* la respuesta correcta se mide en el navegador: se aplica la marca nueva y se compara el estilo calculado */
+  qApply(Q_ALT);
+  var after = {}; ITEMS.forEach(function (it) { after[it.id] = getComputedStyle($('.qrow[data-id="' + it.id + '"] ' + it.sel)).getPropertyValue(it.prop.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); })); });
+  qApply(Q_BASE);
+  ITEMS.forEach(function (it) { var v = getComputedStyle($('.qrow[data-id="' + it.id + '"] ' + it.sel)).getPropertyValue(it.prop.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); })); qTruth[it.id] = v !== after[it.id]; });
+  list.addEventListener('click', function (e) {
+    var b = e.target.closest('.qt button'); if (!b || qDone) return;
+    var row = b.closest('.qrow'); qGuess[row.dataset.id] = b.dataset.v === '1';
+    $$('button', b.parentElement).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+    qStatus();
+  });
+  $('#qCheck').addEventListener('click', qCheck);
+  $('#qReset').addEventListener('click', qReset);
+  $('#qSwap').addEventListener('click', function () { qShowingAlt = !qShowingAlt; qApply(qShowingAlt ? Q_ALT : Q_BASE); this.textContent = qShowingAlt ? 'Ver la marca original' : 'Ver la marca nueva'; });
+  qStatus();
+  /* tabla para el PDF */
+  $('#chainPrint').innerHTML = ITEMS.map(function (it) { var o = originOf(it); return '<tr><td>' + esc(it.name) + '</td><td><code>' + it.token + '</code></td><td>' + o.short + '</td><td>' + (qTruth[it.id] ? '<span class="badge">Cambia</span>' : '<span class="badge fix">No cambia</span>') + '</td></tr>'; }).join('');
+}
+function qStatus() {
+  var left = ITEMS.length - Object.keys(qGuess).length;
+  $('#qCheck').disabled = left > 0;
+  $('#qScore').textContent = left > 0 ? (left === 1 ? 'Te falta 1 respuesta.' : 'Te faltan ' + left + ' respuestas.') : 'Listo para comprobar.';
+}
+function qCheck() {
+  qDone = true; var ok = 0;
+  qFrames().forEach(function (f) { f.classList.add('live'); });
+  qShowingAlt = true; qApply(Q_ALT);
+  ITEMS.forEach(function (it) {
+    var row = $('.qrow[data-id="' + it.id + '"]'), right = qGuess[it.id] === qTruth[it.id], o = originOf(it), r = $('.q-r', row);
+    if (right) ok++;
+    row.classList.add(right ? 'ok' : 'bad');
+    $$('.qt button', row).forEach(function (x) { x.disabled = true; });
+    r.innerHTML = '<span class="' + (right ? 'ok' : 'bad') + '">' + (right ? 'Bien.' : (qTruth[it.id] ? 'Sí cambia.' : 'No cambia.')) + '</span> <code>' + it.token + '</code> ' + (o.kind === 'accent' ? 'sale de <code>--accent-' + o.n + '</code>, que define el cliente con <code>primary</code>.' : o.kind === 'text' ? 'lo define el cliente con <code>primaryText</code>.' : 'apunta a <code>' + o.ref + '</code>, un color fijo.');
+    r.hidden = false;
+  });
+  $('#qScore').textContent = 'Acertaste ' + ok + ' de ' + ITEMS.length + '.' + (ok === ITEMS.length ? ' Solo cambia lo que sale de primary o de primaryText.' : ' El token de cada fila explica por qué.');
+  $('#qCheck').hidden = true; $('#qSwap').hidden = false; $('#qSwap').textContent = 'Ver la marca original'; $('#qReset').hidden = false;
+}
+function qReset() {
+  qDone = false; qGuess = {}; qShowingAlt = false;
+  qFrames().forEach(function (f) { f.classList.remove('live'); });
+  qApply(Q_BASE);
+  $$('#quiz .qrow').forEach(function (row) { row.classList.remove('ok', 'bad'); var r = $('.q-r', row); r.hidden = true; r.innerHTML = ''; $$('.qt button', row).forEach(function (x) { x.disabled = false; x.setAttribute('aria-pressed', 'false'); }); });
+  $('#qCheck').hidden = false; $('#qSwap').hidden = true; $('#qReset').hidden = true;
+  qStatus();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   $('#convIn') && $('#convIn').addEventListener('input', function () { $('#convOut').textContent = '--' + this.value.trim().replace(/\//g, '-'); });
   if ($('#convOut')) $('#convOut').textContent = '--' + $('#convIn').value.replace(/\//g, '-');
-  buildPlayground(); buildCatalog(); buildMeasures(); buildIcons(); buildGalleries(); buildA11y(); buildChecklist(); buildNav(); buildPalette();
+  buildPlayground(); buildCatalog(); buildMeasures(); buildIcons(); buildGalleries(); buildA11y(); buildChain(); buildQuiz(); buildChecklist(); buildNav(); buildPalette();
   applyAll();
   if (PRINT) { $$('.pane').forEach(function (p) { p.hidden = false; }); document.fonts && document.fonts.ready.then(function () { setTimeout(function () { document.documentElement.setAttribute('data-ready', '1'); }, 600); }); }
 });
