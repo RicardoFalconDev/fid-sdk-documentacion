@@ -398,11 +398,11 @@ td code{white-space:nowrap}
 .notice.no .icon{color:#f59e0b}
 
 /* Escala accent */
-.scale{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin:8px 0}
+.scale{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;margin:8px 0}
 .scale div{border-radius:8px;height:56px;border:1px solid rgba(0,0,0,.08);position:relative}
 .scale div span{position:absolute;left:6px;bottom:4px;font:600 11px 'Inter';color:#212529}
 .scale div:nth-child(n+9) span{color:#fff}
-.scale-cap{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;font:500 11px 'JetBrains Mono';color:var(--text-tertiary);margin-bottom:6px}
+.scale-cap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;font:500 11px 'JetBrains Mono';color:var(--text-tertiary);margin-bottom:6px}
 
 /* ═════ Componentes del SDK (las recetas de la sección 6) ═════ */
 .sdk-frame{font-family:var(--font-family-default),system-ui,-apple-system,'Segoe UI',sans-serif}
@@ -439,6 +439,7 @@ td code{white-space:nowrap}
 
 /* Tipografía y medidas */
 .spec{font-size:14px}
+.spec td:nth-child(2),.spec td:nth-child(3),.spec th{white-space:nowrap}
 .radbox{display:flex;flex-wrap:wrap;gap:14px;margin:12px 0}
 .radbox div{width:96px;text-align:center;font-size:12px;color:var(--text-secondary)}
 .radbox i{display:block;height:64px;border:2px solid var(--brand-default);background:var(--brand-tint);margin-bottom:6px}
@@ -508,13 +509,54 @@ details .body{padding:0 0 14px;color:var(--text-secondary);font-size:15px}
 
 /* Barra superior móvil */
 .topbar{display:none}
+main{min-width:0}
 @media (max-width:980px){
-  .app{grid-template-columns:1fr}
+  .app{grid-template-columns:minmax(0,1fr)}
   .side{display:none}
   .topbar{display:flex;position:sticky;top:0;z-index:30;background:var(--bg-default);border-bottom:1px solid var(--stroke-default);padding:10px 16px;align-items:center;gap:12px}
   .topbar select{flex:1;height:40px;border:1px solid var(--stroke-strong);border-radius:10px;padding:0 10px;font:500 14px 'Inter'}
   .lab,.pair,.levels{grid-template-columns:1fr}
   .conv{grid-template-columns:1fr}
+  .conv .icon{transform:rotate(90deg);justify-self:center}
+}
+@media (max-width:640px){
+  html{scroll-padding-top:64px}
+  main{padding:0 16px 72px}
+  section{padding-top:48px}
+  .hero{padding-top:32px}
+  .lead{font-size:16px}
+  .hero .lead{font-size:17px}
+  h3{margin-top:28px}
+  .cta .btn{flex:1 1 100%;justify-content:center}
+  .stage{padding:16px 8px}
+  .phone{width:100%}
+  .layer{grid-template-columns:36px 1fr;gap:10px}
+  .layer .no{width:36px;height:36px}
+  .layer .ex{grid-column:1/-1;overflow-wrap:anywhere}
+  .scale-cap{display:none}
+  .spaces div{flex-wrap:wrap;row-gap:3px;margin-bottom:6px}
+  .spaces i{max-width:100%}
+  .scale{gap:3px}
+  .scale div{height:44px;border-radius:5px}
+  .scale div span{left:4px;font-size:10px}
+  .demo{padding:14px;gap:10px}
+  .demo .sdk-btn{width:100%}
+  .levels{grid-template-columns:1fr}
+  .steps li{grid-template-columns:30px 1fr;gap:10px;padding:12px}
+  .steps li::before{width:30px;height:30px}
+  .rules li{padding:10px 12px}
+  .panel{padding:14px}
+  .code pre{font-size:12px;padding:12px}
+  .cards{grid-template-columns:1fr}
+  .tablewrap table{min-width:560px}
+  .tablewrap{-webkit-overflow-scrolling:touch}
+  .icons{grid-template-columns:repeat(auto-fill,minmax(92px,1fr))}
+  .gal{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .check label{padding:12px}
+  footer.docfoot{flex-direction:column}
+  .topbar select{min-width:0}
+  .pal{padding-top:6vh}
+  .meta .chip{white-space:normal}
 }
 
 /* Paleta de búsqueda */
