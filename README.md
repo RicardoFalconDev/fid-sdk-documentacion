@@ -2,11 +2,19 @@
 
 Referencia para el equipo de desarrollo: contrato de configuración, tokens, componentes, ilustraciones, íconos y accesibilidad.
 
-- **`index.html`**: versión interactiva (playground, buscador, catálogo de tokens). Funciona abriéndola en el navegador.
-- **`FID-SDK-Documentacion-viva.pdf`**: misma documentación en PDF, con índice y links clickeables.
-- **`fuente/`**: plantilla y script para regenerar `index.html` desde el paquete de assets.
+**[Abrir la documentación →](https://ricardofalcondev.github.io/fid-sdk-documentacion/)**
 
-Fuente de verdad: archivo de Figma "FID SDK — Variables". Si algo contradice a Figma, gana Figma.
+## Qué hay en este repo
+
+| Archivo | Para qué |
+|---|---|
+| `index.html` | Versión interactiva: playground, buscador (⌘K), catálogo de tokens y checklist. Es la que publica GitHub Pages. |
+| `FID-SDK-Documentacion-viva.pdf` | La misma documentación en PDF, con índice, marcadores y links clickeables. |
+| `fuente/` | Plantilla y script para regenerar `index.html` desde el paquete de assets. |
+
+## Fuente de verdad
+
+Archivo de Figma "FID SDK — Variables". Si algo contradice a Figma, gana Figma.
 
 ## Regenerar
 
