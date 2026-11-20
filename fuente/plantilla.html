@@ -425,7 +425,7 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
       <div class="ctrl">
         <label for="inPrimary">Color principal <span class="muted">(primary)</span></label>
         <div class="hexrow"><input type="color" id="pkPrimary" aria-label="Elegir color principal"><input type="text" id="inPrimary" maxlength="7" spellcheck="false" autocomplete="off"></div>
-        <small id="hintPrimary">HEX #RRGGBB o #RGB.</small>
+        <small id="hintPrimary">Solo HEX, de 6 o 3 dígitos. Ejemplo: #2A39D0.</small>
       </div>
       <div class="ctrl">
         <label for="inText">Color del texto de los botones <span class="muted">(primaryText)</span></label>
@@ -536,8 +536,8 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   <h2>Contrato de configuración</h2>
   <p class="lead">Es el objeto que el integrador le entrega al SDK. Se valida antes de aplicarlo: si un dato no cumple, se usa su valor por defecto y el SDK no falla.</p>
   <div class="code"><div class="bar"><span>config.json</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre>{
-  <span class="tk-k">"primary"</span>:      <span class="tk-s">"#6D28D9"</span>,   <span class="tk-c">// color principal (HEX #RRGGBB o #RGB)</span>
-  <span class="tk-k">"primaryText"</span>:  <span class="tk-s">"#FFFFFF"</span>,   <span class="tk-c">// color del texto de los botones (HEX); por defecto blanco</span>
+  <span class="tk-k">"primary"</span>:      <span class="tk-s">"#6D28D9"</span>,   <span class="tk-c">// color principal: solo HEX, de 6 o 3 dígitos</span>
+  <span class="tk-k">"primaryText"</span>:  <span class="tk-s">"#FFFFFF"</span>,   <span class="tk-c">// color del texto de los botones: solo HEX; por defecto blanco</span>
   <span class="tk-k">"font"</span>:         <span class="tk-s">"Poppins"</span>,   <span class="tk-c">// Inter, Open Sans, Roboto, Montserrat, Poppins, Lato, Nunito Sans o system</span>
   <span class="tk-k">"radius"</span>:       <span class="tk-s">"m"</span>,         <span class="tk-c">// xs, s, m, full o custom</span>
   <span class="tk-k">"radiusCustom"</span>: <span class="tk-n">12</span>           <span class="tk-c">// solo si radius = "custom": cualquier número ≥ 0 (px)</span>
@@ -545,8 +545,8 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   <div class="tablewrap"><table>
     <thead><tr><th>Propiedad</th><th>Valores</th><th>Por defecto</th><th>Qué cambia</th></tr></thead>
     <tbody>
-      <tr><td><code>primary</code></td><td>HEX <code>#RRGGBB</code> o <code>#RGB</code> (se normaliza a mayúsculas). Solo se valida que sea un HEX válido.</td><td><code>#2A39D0</code></td><td><code>--accent-9</code> y, derivada de él, toda la escala <code>--accent-1…12</code></td></tr>
-      <tr><td><code>primaryText</code></td><td>HEX <code>#RRGGBB</code> o <code>#RGB</code>. Se recomienda contraste ≥ 4.5:1 contra <code>primary</code>; el panel avisa, nunca bloquea (ver <a href="#accesibilidad">Accesibilidad</a>).</td><td><code>#FFFFFF</code></td><td><code>--button-primary-text</code> (en Figma, <code>button/primary-text</code>)</td></tr>
+      <tr><td><code>primary</code></td><td>Solo HEX: 6 dígitos (<code>#2A39D0</code>) o la forma corta de 3 (<code>#FFF</code>). No acepta <code>rgb()</code>, <code>hsl()</code> ni nombres de color. Se normaliza a mayúsculas.</td><td><code>#2A39D0</code></td><td><code>--accent-9</code> y, derivada de él, toda la escala <code>--accent-1…12</code></td></tr>
+      <tr><td><code>primaryText</code></td><td>Solo HEX, de 6 o 3 dígitos, igual que <code>primary</code>. Se recomienda contraste ≥ 4.5:1 contra <code>primary</code>; el panel avisa, nunca bloquea (ver <a href="#accesibilidad">Accesibilidad</a>).</td><td><code>#FFFFFF</code></td><td><code>--button-primary-text</code> (en Figma, <code>button/primary-text</code>)</td></tr>
       <tr><td><code>font</code></td><td>Inter, Open Sans, Roboto, Montserrat, Poppins, Lato, Nunito Sans, system</td><td>Inter</td><td><code>--font-family-default</code></td></tr>
       <tr><td><code>radius</code></td><td><code>xs</code> 4, <code>s</code> 8, <code>m</code> 16, <code>full</code> 999, <code>custom</code></td><td><code>full</code></td><td><code>--radius-button</code></td></tr>
       <tr><td><code>radiusCustom</code></td><td>Cualquier número ≥ 0 (px), solo con <code>radius: "custom"</code></td><td>—</td><td><code>--radius-button</code></td></tr>
@@ -1030,8 +1030,8 @@ function buildPlayground() {
   var sf = $('#selFont'); FONTS.forEach(function (f) { sf.appendChild(el('<option>' + (f === 'system' ? 'system' : f) + '</option>')); });
   var pr = $('#presets'); PRESETS.forEach(function (p) { var b = el('<button class="preset"><i style="background:' + p.primary + '"></i>' + p.n + '</button>'); b.addEventListener('click', function () { state.primary = p.primary; state.primaryText = p.primaryText; sync(); applyAll(); }); pr.appendChild(b); });
   var ip = $('#inPrimary'), it = $('#inText'), pp = $('#pkPrimary'), pt = $('#pkText'), ir = $('#inRadius');
-  function sync() { ip.value = up(state.primary); it.value = up(state.primaryText); pp.value = norm(state.primary).toLowerCase(); pt.value = norm(state.primaryText).toLowerCase(); sf.value = state.font; $$('#segRadius button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.r === state.radius); }); ir.hidden = state.radius !== 'custom'; ir.value = state.radiusCustom; ip.classList.remove('bad'); it.classList.remove('bad'); $('#hintPrimary').textContent = 'HEX #RRGGBB o #RGB.'; $('#hintText').textContent = 'Blanco por defecto.'; }
-  function onHex(input, key, hint) { input.addEventListener('input', function () { var v = input.value.trim(); if (v && v[0] !== '#') v = '#' + v; if (HEX.test(v)) { state[key] = up(v); input.classList.remove('bad'); $('#' + hint).textContent = key === 'primary' ? 'HEX #RRGGBB o #RGB.' : 'Blanco por defecto.'; pp.value = norm(state.primary).toLowerCase(); pt.value = norm(state.primaryText).toLowerCase(); applyAll(); } else { input.classList.add('bad'); $('#' + hint).textContent = 'HEX inválido: el SDK usaría el valor por defecto.'; } }); }
+  function sync() { ip.value = up(state.primary); it.value = up(state.primaryText); pp.value = norm(state.primary).toLowerCase(); pt.value = norm(state.primaryText).toLowerCase(); sf.value = state.font; $$('#segRadius button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.r === state.radius); }); ir.hidden = state.radius !== 'custom'; ir.value = state.radiusCustom; ip.classList.remove('bad'); it.classList.remove('bad'); $('#hintPrimary').textContent = 'Solo HEX, de 6 o 3 dígitos. Ejemplo: #2A39D0.'; $('#hintText').textContent = 'Blanco por defecto.'; }
+  function onHex(input, key, hint) { input.addEventListener('input', function () { var v = input.value.trim(); if (v && v[0] !== '#') v = '#' + v; if (HEX.test(v)) { state[key] = up(v); input.classList.remove('bad'); $('#' + hint).textContent = key === 'primary' ? 'Solo HEX, de 6 o 3 dígitos. Ejemplo: #2A39D0.' : 'Blanco por defecto.'; pp.value = norm(state.primary).toLowerCase(); pt.value = norm(state.primaryText).toLowerCase(); applyAll(); } else { input.classList.add('bad'); $('#' + hint).textContent = 'HEX inválido: el SDK usaría el valor por defecto.'; } }); }
   onHex(ip, 'primary', 'hintPrimary'); onHex(it, 'primaryText', 'hintText');
   pp.addEventListener('input', function () { state.primary = up(pp.value); sync(); applyAll(); }); pt.addEventListener('input', function () { state.primaryText = up(pt.value); sync(); applyAll(); });
   sf.addEventListener('change', function () { state.font = sf.value; applyAll(); });
