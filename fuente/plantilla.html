@@ -287,8 +287,10 @@ td code{white-space:nowrap}
 }
 
 /* Valores que se copian con un toque */
-.copyhex{border:0;border-bottom:1px dashed var(--stroke-strong);background:none;padding:0;font:inherit;color:inherit;cursor:copy}
-.copyhex:hover{color:var(--text-primary);border-bottom-color:var(--text-primary)}
+.copyhex{display:inline-flex;align-items:center;gap:2px;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}
+.copyhex::after{content:'content_copy';font-family:'Material Symbols Rounded';font-size:14px;line-height:1;font-variation-settings:'FILL' 0,'wght' 300;opacity:0;transition:opacity .15s}
+.copyhex:hover,.copyhex:focus-visible{color:var(--text-primary)}
+.copyhex:hover::after,.copyhex:focus-visible::after{opacity:1}
 /* Colores primitivos */
 .prim{display:grid;gap:var(--sp-6);margin:var(--sp-6) 0}
 .prow{display:grid;grid-template-columns:176px minmax(0,1fr);gap:var(--sp-4);align-items:start}
@@ -297,14 +299,10 @@ td code{white-space:nowrap}
 .pcells{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--sp-1)}
 .pc{display:flex;flex-direction:column;gap:var(--sp-1);min-width:0;padding:0;border:0;background:none;text-align:left;cursor:pointer;color:var(--text-tertiary)}
 .pc i{position:relative;display:flex;align-items:flex-end;height:44px;padding:var(--sp-1);border:1px solid var(--stroke-subtle);border-radius:var(--radius-sm);font:600 10px/1 'Inter',sans-serif;font-style:normal}
+.pc-copy{position:absolute;top:var(--sp-1);right:var(--sp-1);font-size:16px;opacity:0;transition:opacity .15s}
+.pc:hover .pc-copy,.pc:focus-visible .pc-copy,.pc.done .pc-copy{opacity:1}
+.pc:hover i{border-color:var(--stroke-strong)}
 .pc small{font:500 10px/14px 'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pc.used i::after{content:'';position:absolute;top:var(--sp-1);right:var(--sp-1);width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.7}
-.pc[aria-pressed=true] i{outline:2px solid var(--stroke-primary);outline-offset:2px}
-.pc[aria-pressed=true] small{color:var(--text-primary);font-weight:600}
-.prim-detail{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-3);padding:var(--sp-4) 0;border-top:1px solid var(--stroke-subtle);border-bottom:1px solid var(--stroke-subtle);font-size:var(--font-size-14);line-height:var(--font-line-height-20);color:var(--text-secondary)}
-.prim-detail .sw{margin-right:0}
-.prim-detail .copy{margin-left:auto;border:1px solid var(--stroke-strong);background:var(--bg-default);border-radius:var(--radius-md);padding:var(--sp-1) var(--sp-3);font-size:var(--font-size-14);color:var(--text-primary)}
-.prim-detail .copy:hover{background:var(--bg-surface)}
 .prim-legend{display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-6);font-size:var(--font-size-12);line-height:var(--font-line-height-16);color:var(--text-tertiary);margin:var(--sp-4) 0 0}
 .prim-legend b{color:var(--text-secondary);font-weight:600}
 @media (max-width:640px){
@@ -380,8 +378,9 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   .spec td:nth-child(2),.spec td:nth-child(3){white-space:nowrap}
   tr{break-inside:avoid}
   .prow{break-inside:avoid}
-  .copyhex{border-bottom:0}
+  .copyhex::after{display:none}
   .pc small{font-size:6.5pt;text-overflow:clip}
+  .pc-copy{display:none}
   .cards{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--sp-4)}
   .pane[hidden]{display:block!important}
   .pane .ptitle{display:block!important}
@@ -531,9 +530,8 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
 <section id="primitivos" data-title="Colores primitivos" data-g="Fundamentos">
   <h2>Colores primitivos</h2>
   <p class="lead">La primera capa: los colores crudos de los que salen los tokens semánticos. Son seis escalas de 12 pasos, el blanco y el negro puros y dos escalas con transparencia. Están para consulta: en componentes no se usan nunca directo (regla 2).</p>
-  <div class="prim-legend"><span><b>Pasos 1–2</b> fondos</span><span><b>3–5</b> componentes</span><span><b>6–8</b> bordes</span><span><b>9–10</b> sólidos</span><span><b>11–12</b> texto</span><span class="liveonly">El punto indica que algún token semántico usa ese color. Tocá uno para copiar su valor y ver qué tokens lo usan.</span></div>
+  <div class="prim-legend"><span><b>Pasos 1–2</b> fondos</span><span><b>3–5</b> componentes</span><span><b>6–8</b> bordes</span><span><b>9–10</b> sólidos</span><span><b>11–12</b> texto</span><span class="liveonly">Tocá un color para copiar su valor.</span></div>
   <div class="prim" id="prim"></div>
-  <div class="prim-detail liveonly" id="primDetail" aria-live="polite"></div>
   <div class="note"><b>¿Y la escala accent?</b>No es primitiva. En el archivo de tokens apunta a <code>indigo</code>, pero en el SDK se calcula a partir del color <code>primary</code> del cliente. Está explicada en <a href="#salida">Qué escribe el SDK</a>.</div>
 </section>
 
@@ -1041,7 +1039,7 @@ function buildNav() {
 function buildPalette() {
   var items = [];
   $$('main section').forEach(function (s) { items.push({ t: s.dataset.title, k: 'Sección', go: function () { location.hash = s.id; } }); });
-  Object.keys(DATA.primitive).forEach(function (n) { items.push({ t: n, k: 'Primitivo: ' + DATA.primitive[n], q: (n + ' ' + DATA.primitive[n]).toLowerCase(), go: function () { location.hash = 'primitivos'; selectPrim(n); } }); });
+  Object.keys(DATA.primitive).forEach(function (n) { items.push({ t: n, k: 'Primitivo: ' + DATA.primitive[n], q: (n + ' ' + DATA.primitive[n]).toLowerCase(), go: function () { location.hash = 'primitivos'; } }); });
   DATA.semantic.forEach(function (t) { items.push({ t: t.name, k: t.uso || t.value, q: (t.name + ' ' + t.value + ' ' + (t.uso || '')).toLowerCase(), go: function () { location.hash = 'catalogo'; var i = $('#tokSearch'); i.value = t.name; i.dispatchEvent(new Event('input')); } }); });
   $$('.rules li').forEach(function (r, i) { items.push({ t: 'Regla ' + (i + 1) + ': ' + r.textContent.slice(0, 70) + '…', k: 'Regla', q: r.textContent.toLowerCase(), go: function () { location.hash = 'tokens'; } }); });
   var pal = $('#pal'), inp = $('#palIn'), list = $('#palList'), sel = 0, cur = [];
@@ -1154,8 +1152,6 @@ var PRIM_FAM = [
   ['red', 'Error'], ['green', 'Éxito'], ['amber', 'Advertencia'],
   ['base', 'Blanco y negro puros'], ['black-a', 'Negro con transparencia, para sombras y capas'], ['white-a', 'Blanco con transparencia, sobre fondos oscuros']
 ];
-var PRIM_USE = {};
-var primSel = '--gray-12';
 function primAlpha(v) { var m = /rgba\([^)]*,\s*([\d.]+)\)/.exec(v); return m ? +m[1] : null; }
 function primCell(name, v) {
   var a = primAlpha(v), step = (/-(\d+)$/.exec(name) || [])[1], bg, fg, label;
@@ -1164,34 +1160,21 @@ function primCell(name, v) {
   if (a === null) { bg = v; fg = lum(v) > 0.4 ? 'var(--text-primary)' : 'var(--text-inverse)'; label = v; }
   else if (name.indexOf('--white-a') === 0) { bg = 'linear-gradient(' + v + ',' + v + '),var(--bg-inverse)'; fg = a >= 0.5 ? 'var(--text-primary)' : 'var(--text-inverse)'; label = Math.round(a * 100) + ' %'; }
   else { bg = 'linear-gradient(' + v + ',' + v + '),var(--bg-default)'; fg = a >= 0.44 ? 'var(--text-inverse)' : 'var(--text-primary)'; label = Math.round(a * 100) + ' %'; }
-  return '<button type="button" class="pc' + (PRIM_USE[name] ? ' used' : '') + '" data-t="' + name + '" data-copy="' + v + '" aria-pressed="' + (name === primSel) + '" title="' + name + ': ' + v + '. Tocá para copiar."><i style="background:' + bg + ';color:' + fg + '">' + step + '</i><small>' + label + '</small></button>';
-}
-function renderPrimDetail() {
-  var v = DATA.primitive[primSel], uses = PRIM_USE[primSel] || [];
-  $('#primDetail').innerHTML = '<span class="sw" style="background:' + v + '"></span><code>' + primSel + '</code><button type="button" class="copyhex mono small" data-copy="' + v + '" title="Copiar ' + v + '">' + v + '</button><span>' + (uses.length ? 'Lo usa' + (uses.length > 1 ? 'n' : '') + ': ' + uses.map(function (u) { return '<code>' + u + '</code>'; }).join(', ') : 'Ningún token semántico lo usa hoy.') + '</span><button type="button" class="copy" data-copy="' + v + '">Copiar valor</button><button type="button" class="copy" data-copy="var(' + primSel + ')" style="margin-left:0">Copiar var()</button>';
-}
-/* el detalle va pegado a la fila del color elegido */
-function placePrimDetail() {
-  var cell = $('#prim .pc[data-t="' + primSel + '"]');
-  if (cell) cell.closest('.prow').after($('#primDetail'));
-}
-function selectPrim(name) {
-  primSel = name;
-  $$('#prim .pc').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.t === name); });
-  placePrimDetail();
-  renderPrimDetail();
+  return '<button type="button" class="pc" data-t="' + name + '" data-copy="' + v + '" title="' + name + ': ' + v + '" aria-label="Copiar ' + v + ' (' + name + ')"><i style="background:' + bg + ';color:' + fg + '">' + step + '<span class="icon pc-copy" aria-hidden="true">content_copy</span></i><small>' + label + '</small></button>';
 }
 function buildPrimitives() {
-  DATA.semantic.forEach(function (t) { if (t.ref && DATA.primitive[t.ref]) (PRIM_USE[t.ref] = PRIM_USE[t.ref] || []).push(t.name); });
   var names = Object.keys(DATA.primitive), box = $('#prim');
   PRIM_FAM.forEach(function (f) {
     var list = names.filter(function (n) { return f[0] === 'base' ? n.indexOf('--base-') === 0 : new RegExp('^--' + f[0] + '-\\d+$').test(n); });
     if (!list.length) return;
     box.appendChild(el('<div class="prow"><div class="plab"><b>' + f[0] + '</b><span>' + f[1] + '</span></div><div class="pcells">' + list.map(function (n) { return primCell(n, DATA.primitive[n]); }).join('') + '</div></div>'));
   });
-  box.addEventListener('click', function (e) { var b = e.target.closest('.pc'); if (b) selectPrim(b.dataset.t); });
-  placePrimDetail();
-  renderPrimDetail();
+  /* al copiar, el ícono pasa a tilde un momento */
+  box.addEventListener('click', function (e) {
+    var b = e.target.closest('.pc'); if (!b) return;
+    var ic = $('.pc-copy', b); ic.textContent = 'check'; b.classList.add('done');
+    clearTimeout(b.t); b.t = setTimeout(function () { ic.textContent = 'content_copy'; b.classList.remove('done'); }, 1200);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
