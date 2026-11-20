@@ -286,6 +286,32 @@ td code{white-space:nowrap}
       .pk{grid-template-columns:96px 1fr}
 }
 
+/* Valores que se copian con un toque */
+.copyhex{border:0;border-bottom:1px dashed var(--stroke-strong);background:none;padding:0;font:inherit;color:inherit;cursor:copy}
+.copyhex:hover{color:var(--text-primary);border-bottom-color:var(--text-primary)}
+/* Colores primitivos */
+.prim{display:grid;gap:var(--sp-6);margin:var(--sp-6) 0}
+.prow{display:grid;grid-template-columns:176px minmax(0,1fr);gap:var(--sp-4);align-items:start}
+.plab b{display:block;font:600 14px/20px 'JetBrains Mono',monospace;color:var(--text-primary)}
+.plab span{display:block;font-size:var(--font-size-12);line-height:var(--font-line-height-16);color:var(--text-tertiary);margin-top:var(--sp-1)}
+.pcells{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--sp-1)}
+.pc{display:flex;flex-direction:column;gap:var(--sp-1);min-width:0;padding:0;border:0;background:none;text-align:left;cursor:pointer;color:var(--text-tertiary)}
+.pc i{position:relative;display:flex;align-items:flex-end;height:44px;padding:var(--sp-1);border:1px solid var(--stroke-subtle);border-radius:var(--radius-sm);font:600 10px/1 'Inter',sans-serif;font-style:normal}
+.pc small{font:500 10px/14px 'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc.used i::after{content:'';position:absolute;top:var(--sp-1);right:var(--sp-1);width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.7}
+.pc[aria-pressed=true] i{outline:2px solid var(--stroke-primary);outline-offset:2px}
+.pc[aria-pressed=true] small{color:var(--text-primary);font-weight:600}
+.prim-detail{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-3);padding:var(--sp-4) 0;border-top:1px solid var(--stroke-subtle);border-bottom:1px solid var(--stroke-subtle);font-size:var(--font-size-14);line-height:var(--font-line-height-20);color:var(--text-secondary)}
+.prim-detail .sw{margin-right:0}
+.prim-detail .copy{margin-left:auto;border:1px solid var(--stroke-strong);background:var(--bg-default);border-radius:var(--radius-md);padding:var(--sp-1) var(--sp-3);font-size:var(--font-size-14);color:var(--text-primary)}
+.prim-detail .copy:hover{background:var(--bg-surface)}
+.prim-legend{display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-6);font-size:var(--font-size-12);line-height:var(--font-line-height-16);color:var(--text-tertiary);margin:var(--sp-4) 0 0}
+.prim-legend b{color:var(--text-secondary);font-weight:600}
+@media (max-width:640px){
+  .prow{grid-template-columns:1fr;gap:var(--sp-2)}
+  .pcells{grid-template-columns:repeat(6,minmax(0,1fr));row-gap:var(--sp-3)}
+}
+
 /* Barra superior móvil */
 .topbar{display:none}
 @media (max-width:980px){
@@ -353,6 +379,9 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   #salida,#cadena,#contrato,#catalogo,#medidas,#recetas,#ilustraciones,#accesibilidad,#recursos{break-before:page;padding-top:0}
   .spec td:nth-child(2),.spec td:nth-child(3){white-space:nowrap}
   tr{break-inside:avoid}
+  .prow{break-inside:avoid}
+  .copyhex{border-bottom:0}
+  .pc small{font-size:6.5pt;text-overflow:clip}
   .cards{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--sp-4)}
   .pane[hidden]{display:block!important}
   .pane .ptitle{display:block!important}
@@ -463,26 +492,8 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   <div class="stage printonly" id="printBrands"></div>
 </section>
 
-<!-- ═════ 1 · Qué escribe el SDK ═════ -->
-<section id="salida" data-title="Qué escribe el SDK" data-g="Empezar">
-  <h2>Qué escribe el SDK</h2>
-  <p class="lead">Estas son las variables que el SDK escribe en el contenedor <code>sdk-frame</code>. Es lo único que cambia entre una marca y otra.</p>
-  <div class="tabs liveonly" role="tablist" data-tabs="out">
-    <button role="tab" aria-selected="true" data-p="o-cfg">Configuración</button>
-    <button role="tab" aria-selected="false" data-p="o-css">CSS en el contenedor</button>
-  </div>
-  <div class="pane" id="o-cfg"><div class="code" data-live="cfg"><div class="bar"><span>config.json</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre></pre></div></div>
-  <div class="pane" id="o-css" hidden><div class="code" data-live="css"><div class="bar"><span>.sdk-frame (inline)</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre></pre></div></div>
-
-  <h3>La escala accent se calcula sola</h3>
-  <p>El cliente solo da el <b>paso 9</b>. Los pasos 1 a 8 mezclan el color con blanco; los pasos 10 a 12, con negro. No hay que definir nada más.</p>
-  <div class="scale-cap">{{SCALE_CAP}}</div>
-  <div class="scale sdk-frame" id="scale"></div>
-  <div class="tablewrap"><table><thead><tr><th>Paso</th><th>Rol</th><th>Fórmula</th><th>Lo usa</th></tr></thead><tbody id="scaleTable"></tbody></table></div>
-</section>
-
 <!-- ═════ 2 · Tokens ═════ -->
-<section id="tokens" data-title="Qué es un token" data-g="Entender">
+<section id="tokens" data-title="Qué es un token" data-g="Fundamentos">
   <h2>Qué es un token</h2>
   <p class="lead">Un token es un <b>nombre que apunta a un valor</b>. El código usa el nombre y nunca el valor. Así, cuando cambia la marca, cambia todo lo que dependía de ella.</p>
   <div class="code"><div class="bar"><span>css</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre><span class="tk-c">/* ✗ valor suelto */</span>  .btn { background: #2A39D0; }
@@ -516,8 +527,27 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   </ol>
 </section>
 
+<!-- ═════ Colores primitivos ═════ -->
+<section id="primitivos" data-title="Colores primitivos" data-g="Fundamentos">
+  <h2>Colores primitivos</h2>
+  <p class="lead">La primera capa: los colores crudos de los que salen los tokens semánticos. Son seis escalas de 12 pasos, el blanco y el negro puros y dos escalas con transparencia. Están para consulta: en componentes no se usan nunca directo (regla 2).</p>
+  <div class="prim-legend"><span><b>Pasos 1–2</b> fondos</span><span><b>3–5</b> componentes</span><span><b>6–8</b> bordes</span><span><b>9–10</b> sólidos</span><span><b>11–12</b> texto</span><span class="liveonly">El punto indica que algún token semántico usa ese color. Tocá uno para copiar su valor y ver qué tokens lo usan.</span></div>
+  <div class="prim" id="prim"></div>
+  <div class="prim-detail liveonly" id="primDetail" aria-live="polite"></div>
+  <div class="note"><b>¿Y la escala accent?</b>No es primitiva. En el archivo de tokens apunta a <code>indigo</code>, pero en el SDK se calcula a partir del color <code>primary</code> del cliente. Está explicada en <a href="#salida">Qué escribe el SDK</a>.</div>
+</section>
+
+<!-- ═════ 5 · Catálogo ═════ -->
+<section id="catalogo" data-title="Tokens semánticos" data-g="Fundamentos">
+  <h2>Tokens semánticos</h2>
+  <p class="lead">La segunda capa: cada token dice para qué sirve y apunta a un primitivo o a la escala de marca. Son los únicos que se usan en componentes. Filtrá por grupo o buscá por nombre. Tocá un token para copiar su <code>var()</code>. La insignia <span class="badge">Marca</span> indica que cambia con el color del cliente.</p>
+  <div class="ctrl liveonly" style="max-width:420px"><input id="tokSearch" type="search" placeholder="Buscar: button, error, #212529…" style="height:46px;border:1px solid var(--stroke-strong);border-radius:10px;padding:0 14px;font:500 15px 'Inter'" aria-label="Buscar token"></div>
+  <div class="tabs liveonly" id="tokTabs" role="tablist"></div>
+  <div id="tokPanes"></div>
+</section>
+
 <!-- ═════ Cómo se conectan los tokens ═════ -->
-<section id="cadena" data-title="Cómo se conectan los tokens" data-g="Entender">
+<section id="cadena" data-title="Cómo se conectan los tokens" data-g="Fundamentos">
   <h2>Cómo se conectan los tokens</h2>
   <p class="lead">Cada color del SDK recorre la misma cadena: el CSS del componente usa un token semántico, y ese token apunta a la escala de marca o a un color fijo. Elegí un elemento y seguí su camino hasta el origen.</p>
 
@@ -529,6 +559,20 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
 
   <!-- PDF: la misma información en una tabla -->
   <div class="printonly"><div class="tablewrap"><table><thead><tr><th>Elemento</th><th>Token</th><th>Sale de</th><th>¿Cambia con la marca?</th></tr></thead><tbody id="chainPrint"></tbody></table></div></div>
+</section>
+
+<!-- ═════ 6 · Medidas ═════ -->
+<section id="medidas" data-title="Medidas y tipografía" data-g="Fundamentos">
+  <h2>Medidas y estilos de texto</h2>
+  <p class="lead">Radios y espaciado ordenados de menor a mayor. Los estilos de texto van de mayor a menor tamaño: se aplica el estilo completo, no valores sueltos.</p>
+  <h3>Radios</h3>
+  <div class="radbox" id="radbox"></div>
+  <h3>Espaciado y tamaños</h3>
+  <p class="small muted">Escala de 8 px para márgenes, paddings y separaciones.</p>
+  <div class="spaces" id="spaces"></div>
+  <h3>Estilos de texto</h3>
+  <div class="tablewrap"><table class="spec"><thead><tr><th>Estilo</th><th>px / lh</th><th>Peso</th><th>Muestra</th></tr></thead><tbody id="textStyles"></tbody></table></div>
+  <p class="small muted">Las variantes <code>-underline</code> son para links. <code>xs-*</code> y <code>xxs-*</code> llevan <code>letter-spacing: 0.1px</code>. Fuente: <code>--font-family-default</code> (configurable); pesos <code>--font-style-regular|medium|semibold|bold</code> = 400/500/600/700.</p>
 </section>
 
 <!-- ═════ 3 · Contrato ═════ -->
@@ -561,6 +605,24 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   </div>
 </section>
 
+<!-- ═════ 1 · Qué escribe el SDK ═════ -->
+<section id="salida" data-title="Qué escribe el SDK" data-g="Personalizar">
+  <h2>Qué escribe el SDK</h2>
+  <p class="lead">Estas son las variables que el SDK escribe en el contenedor <code>sdk-frame</code>. Es lo único que cambia entre una marca y otra.</p>
+  <div class="tabs liveonly" role="tablist" data-tabs="out">
+    <button role="tab" aria-selected="true" data-p="o-cfg">Configuración</button>
+    <button role="tab" aria-selected="false" data-p="o-css">CSS en el contenedor</button>
+  </div>
+  <div class="pane" id="o-cfg"><div class="code" data-live="cfg"><div class="bar"><span>config.json</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre></pre></div></div>
+  <div class="pane" id="o-css" hidden><div class="code" data-live="css"><div class="bar"><span>.sdk-frame (inline)</span><button class="copy"><span class="icon" aria-hidden="true">content_copy</span> Copiar</button></div><pre></pre></div></div>
+
+  <h3>La escala accent se calcula sola</h3>
+  <p>El cliente solo da el <b>paso 9</b>. Los pasos 1 a 8 mezclan el color con blanco; los pasos 10 a 12, con negro. No hay que definir nada más.</p>
+  <div class="scale-cap">{{SCALE_CAP}}</div>
+  <div class="scale sdk-frame" id="scale"></div>
+  <div class="tablewrap"><table><thead><tr><th>Paso</th><th>Rol</th><th>Fórmula</th><th>Lo usa</th></tr></thead><tbody id="scaleTable"></tbody></table></div>
+</section>
+
 <!-- ═════ 4 · Aplicar ═════ -->
 <section id="aplicar" data-title="Cómo se aplica" data-g="Personalizar">
   <h2>Cómo se aplica</h2>
@@ -577,29 +639,6 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
   <div class="note warn"><b>La cascada importa</b><code>tokens.css</code> declara los semánticos en <code>:root</code> <b>y</b> en <code>.sdk-frame</code>. <code>var()</code> se resuelve en el elemento donde se declara: si los semánticos solo estuvieran en <code>:root</code>, <code>--button-primary-bg</code> usaría el <code>--accent-9</code> de la raíz y no vería el color del cliente. El contenedor del SDK debe llevar la clase <code>sdk-frame</code>, y <code>accent-from-primary.css</code> se carga siempre después de <code>tokens.css</code>.</div>
   <h4>Con <code>font</code></h4>
   <p>Cargá la fuente elegida bajo demanda y mantené <code>system-ui</code> de respaldo. Roboto y Lato no tienen peso 600 (usá 700); Open Sans y Lato no tienen 500 (usá 400).</p>
-</section>
-
-<!-- ═════ 5 · Catálogo ═════ -->
-<section id="catalogo" data-title="Catálogo de tokens" data-g="Referencia">
-  <h2>Catálogo de tokens semánticos</h2>
-  <p class="lead">Filtrá por grupo o buscá por nombre. Tocá un token para copiar su <code>var()</code>. La insignia <span class="badge">Marca</span> indica que cambia con el color del cliente.</p>
-  <div class="ctrl liveonly" style="max-width:420px"><input id="tokSearch" type="search" placeholder="Buscar: button, error, #212529…" style="height:46px;border:1px solid var(--stroke-strong);border-radius:10px;padding:0 14px;font:500 15px 'Inter'" aria-label="Buscar token"></div>
-  <div class="tabs liveonly" id="tokTabs" role="tablist"></div>
-  <div id="tokPanes"></div>
-</section>
-
-<!-- ═════ 6 · Medidas ═════ -->
-<section id="medidas" data-title="Medidas y tipografía" data-g="Referencia">
-  <h2>Medidas y estilos de texto</h2>
-  <p class="lead">Radios y espaciado ordenados de menor a mayor. Los estilos de texto van de mayor a menor tamaño: se aplica el estilo completo, no valores sueltos.</p>
-  <h3>Radios</h3>
-  <div class="radbox" id="radbox"></div>
-  <h3>Espaciado y tamaños</h3>
-  <p class="small muted">Escala de 8 px para márgenes, paddings y separaciones.</p>
-  <div class="spaces" id="spaces"></div>
-  <h3>Estilos de texto</h3>
-  <div class="tablewrap"><table class="spec"><thead><tr><th>Estilo</th><th>px / lh</th><th>Peso</th><th>Muestra</th></tr></thead><tbody id="textStyles"></tbody></table></div>
-  <p class="small muted">Las variantes <code>-underline</code> son para links. <code>xs-*</code> y <code>xxs-*</code> llevan <code>letter-spacing: 0.1px</code>. Fuente: <code>--font-family-default</code> (configurable); pesos <code>--font-style-regular|medium|semibold|bold</code> = 400/500/600/700.</p>
 </section>
 
 <!-- ═════ 7 · Recetas ═════ -->
@@ -714,7 +753,7 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
 </section>
 
 <!-- ═════ 12 · Recursos ═════ -->
-<section id="recursos" data-title="Recursos y descargas" data-g="Calidad">
+<section id="recursos" data-title="Recursos y descargas" data-g="Recursos">
   <h2>Recursos y descargas</h2>
   <p class="lead">Todo lo que necesita el equipo, en un solo lugar.</p>
   <ul class="refs">
@@ -797,7 +836,7 @@ function el(html) { var t = document.createElement('template'); t.innerHTML = ht
 function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
 function toast(msg) { var t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('on'); }, 1600); }
 function copy(text, btn) {
-  var done = function () { toast('Copiado'); if (btn) { btn.classList.add('done'); var o = btn.innerHTML; btn.innerHTML = '<span class="icon" aria-hidden="true">check</span> Copiado'; setTimeout(function () { btn.classList.remove('done'); btn.innerHTML = o; }, 1400); } };
+  var done = function () { toast(text.length <= 40 ? 'Copiado: ' + text : 'Copiado'); if (btn) { btn.classList.add('done'); var o = btn.innerHTML; btn.innerHTML = '<span class="icon" aria-hidden="true">check</span> Copiado'; setTimeout(function () { btn.classList.remove('done'); btn.innerHTML = o; }, 1400); } };
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); done(); }
 }
 function svg(name, suffix) { return SVGS[name].replace(/id="([^"]+)"/g, 'id="$1-' + suffix + '"').replace(/url\(#([^)]+)\)/g, 'url(#$1-' + suffix + ')').replace(/href="#([^"]+)"/g, 'href="#$1-' + suffix + '"'); }
@@ -877,7 +916,7 @@ function renderScale() {
   var box = $('#scale'); if (!box) return; box.innerHTML = '';
   STEPS.forEach(function (s) { var d = document.createElement('div'); d.style.background = 'var(--accent-' + s[0] + ')'; d.innerHTML = '<span>' + s[0] + '</span>'; box.appendChild(d); });
   var tb = $('#scaleTable'); if (!tb) return;
-  tb.innerHTML = STEPS.map(function (s) { var hex = s[3] === 'p' ? up(state.primary) : mix(state.primary, s[2], s[3] === 'b' ? 'b' : 'w'); var f = s[3] === 'p' ? 'var(--accent-9)  ← valor inyectado' : 'color-mix(in srgb, var(--accent-9) ' + s[2] + '%, ' + (s[3] === 'b' ? 'black' : 'white') + ')'; return '<tr><td><span class="sw" style="background:' + hex + '"></span><code>accent-' + s[0] + '</code></td><td>' + s[1] + '</td><td><code>' + esc(f) + '</code> <span class="muted small">→ ' + hex + '</span></td><td class="small">' + s[4] + '</td></tr>'; }).join('');
+  tb.innerHTML = STEPS.map(function (s) { var hex = s[3] === 'p' ? up(state.primary) : mix(state.primary, s[2], s[3] === 'b' ? 'b' : 'w'); var f = s[3] === 'p' ? 'var(--accent-9)  ← valor inyectado' : 'color-mix(in srgb, var(--accent-9) ' + s[2] + '%, ' + (s[3] === 'b' ? 'black' : 'white') + ')'; return '<tr><td><span class="sw" style="background:' + hex + '"></span><code>accent-' + s[0] + '</code></td><td>' + s[1] + '</td><td><code>' + esc(f) + '</code> <span class="muted small">→ <button type="button" class="copyhex" data-copy="' + hex + '" title="Copiar ' + hex + '">' + hex + '</button></span></td><td class="small">' + s[4] + '</td></tr>'; }).join('');
 }
 
 /* ═════ Lotties / ilustraciones ═════ */
@@ -913,7 +952,7 @@ function buildCatalog() {
     rows.forEach(function (t) {
       var brand = !!t.brand;
       var isColor = /^#|^rgba?\(/.test(t.value);
-      var tr = el('<tr data-s="' + esc((t.name + ' ' + t.value + ' ' + (t.uso || '')).toLowerCase()) + '"><td><button class="copytoken" data-copy="var(' + t.name + ')" title="Copiar var(' + t.name + ')"><code>' + t.name + '</code></button></td><td>' + (isColor ? '<span class="sw" style="background:' + t.value + '"></span>' : '') + '<span class="mono small">' + esc(t.value) + '</span>' + (t.ref ? '<div class="small muted mono">' + esc(t.ref) + '</div>' : '') + '</td><td>' + (brand ? '<span class="badge">Marca</span>' : '<span class="badge fix">Fijo</span>') + '</td><td class="small">' + esc(t.uso || '') + '</td></tr>');
+      var tr = el('<tr data-s="' + esc((t.name + ' ' + t.value + ' ' + (t.uso || '')).toLowerCase()) + '"><td><button class="copytoken" data-copy="var(' + t.name + ')" title="Copiar var(' + t.name + ')"><code>' + t.name + '</code></button></td><td>' + (isColor ? '<span class="sw" style="background:' + t.value + '"></span>' : '') + '<button type="button" class="copyhex mono small" data-copy="' + esc(t.value) + '" title="Copiar ' + esc(t.value) + '">' + esc(t.value) + '</button>' + (t.ref ? '<div class="small muted mono">' + esc(t.ref) + '</div>' : '') + '</td><td>' + (brand ? '<span class="badge">Marca</span>' : '<span class="badge fix">Fijo</span>') + '</td><td class="small">' + esc(t.uso || '') + '</td></tr>');
       tb.appendChild(tr);
     });
     panes.appendChild(pane);
@@ -1002,6 +1041,7 @@ function buildNav() {
 function buildPalette() {
   var items = [];
   $$('main section').forEach(function (s) { items.push({ t: s.dataset.title, k: 'Sección', go: function () { location.hash = s.id; } }); });
+  Object.keys(DATA.primitive).forEach(function (n) { items.push({ t: n, k: 'Primitivo: ' + DATA.primitive[n], q: (n + ' ' + DATA.primitive[n]).toLowerCase(), go: function () { location.hash = 'primitivos'; selectPrim(n); } }); });
   DATA.semantic.forEach(function (t) { items.push({ t: t.name, k: t.uso || t.value, q: (t.name + ' ' + t.value + ' ' + (t.uso || '')).toLowerCase(), go: function () { location.hash = 'catalogo'; var i = $('#tokSearch'); i.value = t.name; i.dispatchEvent(new Event('input')); } }); });
   $$('.rules li').forEach(function (r, i) { items.push({ t: 'Regla ' + (i + 1) + ': ' + r.textContent.slice(0, 70) + '…', k: 'Regla', q: r.textContent.toLowerCase(), go: function () { location.hash = 'tokens'; } }); });
   var pal = $('#pal'), inp = $('#palIn'), list = $('#palList'), sel = 0, cur = [];
@@ -1069,7 +1109,7 @@ function originOf(it) {
   if (n !== null) return { brand: true, kind: 'accent', n: n, ref: t.ref, short: n === 9 ? '<code>primary</code>' : '<code>primary</code>, vía <code>--accent-' + n + '</code>' };
   return { brand: false, kind: 'fixed', ref: t.ref, short: 'Fijo (<code>' + t.ref + '</code>)' };
 }
-function swatch(hex) { return '<span class="hv"><i style="background:' + hex + '"></i>' + hex + '</span>'; }
+function swatch(hex) { return '<span class="hv"><i style="background:' + hex + '"></i><button type="button" class="copyhex" data-copy="' + hex + '" title="Copiar ' + hex + '">' + hex + '</button></span>'; }
 function chainHtml(it) {
   var t = tokData(it.token), o = originOf(it), h = [];
   h.push('<li class="hop"><span class="hk">Componente</span><code>' + esc(it.css) + '</code><span class="hd">El CSS que escribís. Nunca lleva un color literal.</span></li>');
@@ -1107,10 +1147,57 @@ function buildChain() {
 }
 
 
+
+/* ═════ Colores primitivos ═════ */
+var PRIM_FAM = [
+  ['gray', 'Neutros: texto, fondos y bordes'], ['indigo', 'Marca FID por defecto'], ['blue', 'Links e información'],
+  ['red', 'Error'], ['green', 'Éxito'], ['amber', 'Advertencia'],
+  ['base', 'Blanco y negro puros'], ['black-a', 'Negro con transparencia, para sombras y capas'], ['white-a', 'Blanco con transparencia, sobre fondos oscuros']
+];
+var PRIM_USE = {};
+var primSel = '--gray-12';
+function primAlpha(v) { var m = /rgba\([^)]*,\s*([\d.]+)\)/.exec(v); return m ? +m[1] : null; }
+function primCell(name, v) {
+  var a = primAlpha(v), step = (/-(\d+)$/.exec(name) || [])[1], bg, fg, label;
+  if (name === '--base-white') step = 'white';
+  if (name === '--base-black') step = 'black';
+  if (a === null) { bg = v; fg = lum(v) > 0.4 ? 'var(--text-primary)' : 'var(--text-inverse)'; label = v; }
+  else if (name.indexOf('--white-a') === 0) { bg = 'linear-gradient(' + v + ',' + v + '),var(--bg-inverse)'; fg = a >= 0.5 ? 'var(--text-primary)' : 'var(--text-inverse)'; label = Math.round(a * 100) + ' %'; }
+  else { bg = 'linear-gradient(' + v + ',' + v + '),var(--bg-default)'; fg = a >= 0.44 ? 'var(--text-inverse)' : 'var(--text-primary)'; label = Math.round(a * 100) + ' %'; }
+  return '<button type="button" class="pc' + (PRIM_USE[name] ? ' used' : '') + '" data-t="' + name + '" data-copy="' + v + '" aria-pressed="' + (name === primSel) + '" title="' + name + ': ' + v + '. Tocá para copiar."><i style="background:' + bg + ';color:' + fg + '">' + step + '</i><small>' + label + '</small></button>';
+}
+function renderPrimDetail() {
+  var v = DATA.primitive[primSel], uses = PRIM_USE[primSel] || [];
+  $('#primDetail').innerHTML = '<span class="sw" style="background:' + v + '"></span><code>' + primSel + '</code><button type="button" class="copyhex mono small" data-copy="' + v + '" title="Copiar ' + v + '">' + v + '</button><span>' + (uses.length ? 'Lo usa' + (uses.length > 1 ? 'n' : '') + ': ' + uses.map(function (u) { return '<code>' + u + '</code>'; }).join(', ') : 'Ningún token semántico lo usa hoy.') + '</span><button type="button" class="copy" data-copy="' + v + '">Copiar valor</button><button type="button" class="copy" data-copy="var(' + primSel + ')" style="margin-left:0">Copiar var()</button>';
+}
+/* el detalle va pegado a la fila del color elegido */
+function placePrimDetail() {
+  var cell = $('#prim .pc[data-t="' + primSel + '"]');
+  if (cell) cell.closest('.prow').after($('#primDetail'));
+}
+function selectPrim(name) {
+  primSel = name;
+  $$('#prim .pc').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.t === name); });
+  placePrimDetail();
+  renderPrimDetail();
+}
+function buildPrimitives() {
+  DATA.semantic.forEach(function (t) { if (t.ref && DATA.primitive[t.ref]) (PRIM_USE[t.ref] = PRIM_USE[t.ref] || []).push(t.name); });
+  var names = Object.keys(DATA.primitive), box = $('#prim');
+  PRIM_FAM.forEach(function (f) {
+    var list = names.filter(function (n) { return f[0] === 'base' ? n.indexOf('--base-') === 0 : new RegExp('^--' + f[0] + '-\\d+$').test(n); });
+    if (!list.length) return;
+    box.appendChild(el('<div class="prow"><div class="plab"><b>' + f[0] + '</b><span>' + f[1] + '</span></div><div class="pcells">' + list.map(function (n) { return primCell(n, DATA.primitive[n]); }).join('') + '</div></div>'));
+  });
+  box.addEventListener('click', function (e) { var b = e.target.closest('.pc'); if (b) selectPrim(b.dataset.t); });
+  placePrimDetail();
+  renderPrimDetail();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   $('#convIn') && $('#convIn').addEventListener('input', function () { $('#convOut').textContent = '--' + this.value.trim().replace(/\//g, '-'); });
   if ($('#convOut')) $('#convOut').textContent = '--' + $('#convIn').value.replace(/\//g, '-');
-  buildPlayground(); buildCatalog(); buildMeasures(); buildIcons(); buildGalleries(); buildA11y(); buildChain(); buildChecklist(); buildNav(); buildPalette();
+  buildPlayground(); buildCatalog(); buildPrimitives(); buildMeasures(); buildIcons(); buildGalleries(); buildA11y(); buildChain(); buildChecklist(); buildNav(); buildPalette();
   applyAll();
   if (PRINT) { $$('.pane').forEach(function (p) { p.hidden = false; }); document.fonts && document.fonts.ready.then(function () { setTimeout(function () { document.documentElement.setAttribute('data-ready', '1'); }, 600); }); }
 });
