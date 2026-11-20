@@ -1,25 +1,29 @@
-# FID SDK · Documentación de personalización
+# FID SDK · Sistema de diseño
 
-Referencia para el equipo de desarrollo: contrato de configuración, tokens, componentes, ilustraciones, íconos y accesibilidad.
+La documentación completa del SDK de FID: fundamentos, tokens en las pantallas, personalización, accesibilidad y código.
 
-**[Abrir la documentación →](https://ricardofalcondev.github.io/fid-sdk-documentacion/)**
+**[Abrir el sistema de diseño →](https://ricardofalcondev.github.io/fid-sdk-documentacion/)**
 
-## Qué hay en este repo
-
-| Archivo | Para qué |
+| Sección | Páginas |
 |---|---|
-| `index.html` | Versión interactiva: playground, buscador (⌘K), catálogo de tokens y checklist. Es la que publica GitHub Pages. |
-| `FID-SDK-Documentacion-viva.pdf` | La misma documentación en PDF, con índice, marcadores y links clickeables. |
-| `fuente/` | Plantilla y script para regenerar `index.html` desde el paquete de assets. |
+| Empezar | Introducción, Personalización |
+| Fundamentos | Color, Tipografía, Espaciado, Radios y bordes, Íconos, Ilustraciones y Lotties |
+| Tokens en las pantallas | Firmar documento, Olvidé mi clave de firma, Flujo Alta, Errores: las 64 pantallas de desktop exportadas de Figma, con el token de cada parte |
+| Calidad | Accesibilidad, Lista de verificación |
+| Recursos | Enlaces, contenido del paquete y trabajo con IA |
 
-## Fuente de verdad
+Cada página tiene pestañas (Resumen, Guías, Tokens y Código, según corresponda) y un índice "En esta página".
 
-Archivo de Figma "FID SDK — Variables". Si algo contradice a Figma, gana Figma.
+Fuente de verdad: archivo de Figma "FID SDK — Variables". Si algo contradice a Figma, gana Figma.
 
 ## Regenerar
 
-Requiere el paquete `FID SDK - Assets` (CSS, SVG, Lotties, `tokens.json`, `DESIGN.md`) en la carpeta hermana, o pasar su ruta:
+Requiere el paquete `FID SDK - Assets` (CSS, SVG, Lotties, `tokens.json` y `DESIGN.md`):
 
 ```bash
 python3 fuente/build.py "ruta/a/FID SDK - Assets"
 ```
+
+## Versión anterior
+
+La documentación de personalización que estaba antes en este repo (con el PDF) quedó en la rama [`documentacion-anterior`](https://github.com/RicardoFalconDev/fid-sdk-documentacion/tree/documentacion-anterior).
