@@ -250,20 +250,15 @@ td code{white-space:nowrap}
 .conv output{display:flex;align-items:center;height:44px;border:1px solid var(--stroke-brand-subtle);background:var(--brand-tint);border-radius:var(--radius-md);padding:0 var(--sp-3);font:500 15px 'JetBrains Mono'}
 
 /* Cadena de tokens y juego */
-.btn[hidden]{display:none}
-.btn.pri{background:var(--brand-default);border-color:var(--brand-default);color:var(--button-primary-text)}
-.btn.pri:hover{background:var(--button-primary-bg-hover)}
-.btn:disabled{background:var(--button-disabled-bg);border-color:var(--button-disabled-border);color:var(--button-disabled-text);cursor:not-allowed}
 .tk-lab{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:var(--sp-8);align-items:start;margin:var(--sp-4) 0 var(--sp-6)}
 .pick{display:flex;flex-direction:column;border-top:1px solid var(--stroke-subtle)}
 .pk{display:grid;grid-template-columns:112px 1fr;gap:var(--sp-3);align-items:center;width:100%;padding:var(--sp-3);border:0;border-bottom:1px solid var(--stroke-subtle);border-left:2px solid transparent;background:transparent;text-align:left;color:var(--text-secondary);font-size:var(--font-size-14);line-height:var(--font-line-height-20)}
 .pk:hover{background:var(--bg-surface);color:var(--text-primary)}
 .pk[aria-pressed=true]{border-left-color:var(--brand-default);background:var(--bg-surface);color:var(--text-primary);font-weight:600}
-.pk-s,.q-s{display:flex;justify-content:center;align-items:center;pointer-events:none}
-.pk-s .sdk-btn,.q-s .sdk-btn{width:auto;min-width:0;height:32px;padding:0 var(--sp-3);font-size:13px;line-height:1}
-.pk-s .badge-error,.q-s .badge-error{font-size:11px;padding:0 var(--sp-2);white-space:nowrap}
-.pk-s .sdk-otp-cell,.q-s .sdk-otp-cell{width:32px;height:38px;font-size:16px}
-.pk-s .sdk-link,.q-s .sdk-link{font-size:13px;white-space:nowrap}
+.pk-s,.pk-s .sdk-btn{width:auto;min-width:0;height:32px;padding:0 var(--sp-3);font-size:13px;line-height:1}
+.pk-s .badge-error{font-size:11px;padding:0 var(--sp-2);white-space:nowrap}
+.pk-s .sdk-otp-cell{width:32px;height:38px;font-size:16px}
+.pk-s .sdk-link{font-size:13px;white-space:nowrap}
 .chain-h{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2);margin:0 0 var(--sp-6);font-size:var(--font-size-18);line-height:var(--font-line-height-26);font-weight:600;color:var(--text-primary)}
 .chain{list-style:none;margin:0;padding:0}
 .hop{position:relative;padding:0 0 var(--sp-6) var(--sp-8)}
@@ -284,30 +279,11 @@ td code{white-space:nowrap}
   .chain.go .hop:nth-child(2){animation-delay:.09s}
   .chain.go .hop:nth-child(3){animation-delay:.18s}
   .chain.go .hop:nth-child(4){animation-delay:.27s}
-  .q-s.live,.q-s.live *{transition:background-color .6s,color .6s,border-color .6s}
 }
-.quiz{list-style:none;margin:var(--sp-4) 0;padding:0}
-.qrow{display:grid;grid-template-columns:136px minmax(0,1fr) auto;gap:var(--sp-4);align-items:center;padding:var(--sp-3) 0;border-top:1px solid var(--stroke-subtle)}
-.qrow:last-child{border-bottom:1px solid var(--stroke-subtle)}
-.q-s{min-height:52px;padding:var(--sp-2);background:var(--bg-surface);border-radius:var(--radius-md)}
-.q-n b{display:block;font-weight:600}
-.q-r{display:block;font-size:var(--font-size-14);line-height:var(--font-line-height-20);color:var(--text-secondary);margin-top:var(--sp-1)}
-.q-r .ok{font-weight:600;color:var(--feedback-success-text)}
-.q-r .bad{font-weight:600;color:var(--feedback-error-text)}
-.qt{display:inline-flex;gap:var(--sp-1);padding:var(--sp-1);background:var(--bg-subtle);border-radius:var(--radius-md)}
-.qt button{border:0;background:transparent;padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-sm);font-size:var(--font-size-14);font-weight:500;color:var(--text-secondary);white-space:nowrap}
-.qt button[aria-pressed=true]{background:var(--bg-default);color:var(--text-primary);font-weight:600}
-.qt button:disabled{cursor:default}
-.qrow.ok .qt button[aria-pressed=true]{color:var(--feedback-success-text)}
-.qrow.bad .qt button[aria-pressed=true]{color:var(--feedback-error-text)}
-.qbar{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;margin-top:var(--sp-6)}
-.qscore{font-weight:600;margin-right:var(--sp-2)}
 .printonly > .tablewrap{flex:1}
 @media (max-width:980px){ .tk-lab{grid-template-columns:1fr} }
 @media (max-width:640px){
-  .qrow{grid-template-columns:112px minmax(0,1fr)}
-  .qt{grid-column:1/-1;justify-self:start}
-  .pk{grid-template-columns:96px 1fr}
+      .pk{grid-template-columns:96px 1fr}
 }
 
 /* Barra superior móvil */
@@ -551,8 +527,6 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
     <div aria-live="polite"><div class="chain-h" id="tkHead"></div><ol class="chain" id="tkChain"></ol></div>
   </div>
 
-  <p class="liveonly">Al final del documento hay un <a href="#repaso">repaso</a> para comprobar lo que aprendiste.</p>
-
   <!-- PDF: la misma información en una tabla -->
   <div class="printonly"><div class="tablewrap"><table><thead><tr><th>Elemento</th><th>Token</th><th>Sale de</th><th>¿Cambia con la marca?</th></tr></thead><tbody id="chainPrint"></tbody></table></div></div>
 </section>
@@ -793,19 +767,6 @@ footer.docfoot{margin-top:var(--sp-24);padding-top:var(--sp-6);border-top:1px so
     <tr><td><code>DESIGN.md</code></td><td>Contexto completo para humanos y para agentes de IA: reglas, catálogo, recetas y checklist.</td></tr>
   </tbody></table></div>
   <div class="note"><b>Qué no incluye el paquete</b>Las fuentes (Inter, Open Sans y las demás se cargan desde Google Fonts), los íconos Material Symbols Rounded (Google Fonts) y la librería lottie-web. El spinner es CSS.</div>
-</section>
-
-<!-- ═════ Repaso ═════ -->
-<section id="repaso" class="liveonly" data-title="Comprobá lo que aprendiste" data-g="Repaso">
-  <h2>Comprobá lo que aprendiste</h2>
-  <p class="lead">Si el cliente pasa del azul de FID con texto blanco a un amarillo <code>#F5C518</code> con texto <code>#1A1A1A</code>, ¿qué elementos del SDK cambian? Marcá tu respuesta en cada uno y comprobala.</p>
-  <ol class="quiz" id="quiz"></ol>
-  <div class="qbar">
-    <span class="qscore" id="qScore" aria-live="polite">Te faltan 8 respuestas.</span>
-    <button class="btn pri" id="qCheck" disabled>Comprobar</button>
-    <button class="btn" id="qSwap" hidden>Ver la marca original</button>
-    <button class="btn" id="qReset" hidden>Jugar de nuevo</button>
-  </div>
 </section>
 
 <footer class="docfoot">
@@ -1141,70 +1102,15 @@ function buildChain() {
     p.appendChild(b);
   });
   renderChain(false);
+  /* tabla para el PDF */
+  $('#chainPrint').innerHTML = ITEMS.map(function (it) { var o = originOf(it); return '<tr><td>' + esc(it.name) + '</td><td><code>' + it.token + '</code></td><td>' + o.short + '</td><td>' + (o.brand ? '<span class="badge">Cambia</span>' : '<span class="badge fix">No cambia</span>') + '</td></tr>'; }).join('');
 }
 
-var Q_BASE = { primary: '#2A39D0', primaryText: '#FFFFFF', font: 'Inter', radius: 'full' };
-var Q_ALT = { primary: '#F5C518', primaryText: '#1A1A1A', font: 'Inter', radius: 'full' };
-var qTruth = {}, qGuess = {}, qDone = false, qShowingAlt = false;
-function qFrames() { return $$('#quiz .q-s'); }
-function qApply(b) { qFrames().forEach(function (f) { applyTo(f, b); }); }
-function buildQuiz() {
-  var list = $('#quiz');
-  ITEMS.forEach(function (it) {
-    var li = el('<li class="qrow" data-id="' + it.id + '"><span class="q-s sdk-frame" data-fixed aria-hidden="true">' + it.sample + '</span><span class="q-n"><b>' + esc(it.name) + '</b><span class="q-r" hidden></span></span><span class="qt" role="group" aria-label="¿' + esc(it.name) + ' cambia con la marca?"><button type="button" data-v="1" aria-pressed="false">Cambia</button><button type="button" data-v="0" aria-pressed="false">No cambia</button></span></li>');
-    list.appendChild(li);
-  });
-  /* la respuesta correcta se mide en el navegador: se aplica la marca nueva y se compara el estilo calculado */
-  qApply(Q_ALT);
-  var after = {}; ITEMS.forEach(function (it) { after[it.id] = getComputedStyle($('.qrow[data-id="' + it.id + '"] ' + it.sel)).getPropertyValue(it.prop.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); })); });
-  qApply(Q_BASE);
-  ITEMS.forEach(function (it) { var v = getComputedStyle($('.qrow[data-id="' + it.id + '"] ' + it.sel)).getPropertyValue(it.prop.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); })); qTruth[it.id] = v !== after[it.id]; });
-  list.addEventListener('click', function (e) {
-    var b = e.target.closest('.qt button'); if (!b || qDone) return;
-    var row = b.closest('.qrow'); qGuess[row.dataset.id] = b.dataset.v === '1';
-    $$('button', b.parentElement).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-    qStatus();
-  });
-  $('#qCheck').addEventListener('click', qCheck);
-  $('#qReset').addEventListener('click', qReset);
-  $('#qSwap').addEventListener('click', function () { qShowingAlt = !qShowingAlt; qApply(qShowingAlt ? Q_ALT : Q_BASE); this.textContent = qShowingAlt ? 'Ver la marca original' : 'Ver la marca nueva'; });
-  qStatus();
-  /* tabla para el PDF */
-  $('#chainPrint').innerHTML = ITEMS.map(function (it) { var o = originOf(it); return '<tr><td>' + esc(it.name) + '</td><td><code>' + it.token + '</code></td><td>' + o.short + '</td><td>' + (qTruth[it.id] ? '<span class="badge">Cambia</span>' : '<span class="badge fix">No cambia</span>') + '</td></tr>'; }).join('');
-}
-function qStatus() {
-  var left = ITEMS.length - Object.keys(qGuess).length;
-  $('#qCheck').disabled = left > 0;
-  $('#qScore').textContent = left > 0 ? (left === 1 ? 'Te falta 1 respuesta.' : 'Te faltan ' + left + ' respuestas.') : 'Listo para comprobar.';
-}
-function qCheck() {
-  qDone = true; var ok = 0;
-  qFrames().forEach(function (f) { f.classList.add('live'); });
-  qShowingAlt = true; qApply(Q_ALT);
-  ITEMS.forEach(function (it) {
-    var row = $('.qrow[data-id="' + it.id + '"]'), right = qGuess[it.id] === qTruth[it.id], o = originOf(it), r = $('.q-r', row);
-    if (right) ok++;
-    row.classList.add(right ? 'ok' : 'bad');
-    $$('.qt button', row).forEach(function (x) { x.disabled = true; });
-    r.innerHTML = '<span class="' + (right ? 'ok' : 'bad') + '">' + (right ? 'Bien.' : (qTruth[it.id] ? 'Sí cambia.' : 'No cambia.')) + '</span> <code>' + it.token + '</code> ' + (o.kind === 'accent' ? 'sale de <code>--accent-' + o.n + '</code>, que define el cliente con <code>primary</code>.' : o.kind === 'text' ? 'lo define el cliente con <code>primaryText</code>.' : 'apunta a <code>' + o.ref + '</code>, un color fijo.');
-    r.hidden = false;
-  });
-  $('#qScore').textContent = 'Acertaste ' + ok + ' de ' + ITEMS.length + '.' + (ok === ITEMS.length ? ' Solo cambia lo que sale de primary o de primaryText.' : ' El token de cada fila explica por qué.');
-  $('#qCheck').hidden = true; $('#qSwap').hidden = false; $('#qSwap').textContent = 'Ver la marca original'; $('#qReset').hidden = false;
-}
-function qReset() {
-  qDone = false; qGuess = {}; qShowingAlt = false;
-  qFrames().forEach(function (f) { f.classList.remove('live'); });
-  qApply(Q_BASE);
-  $$('#quiz .qrow').forEach(function (row) { row.classList.remove('ok', 'bad'); var r = $('.q-r', row); r.hidden = true; r.innerHTML = ''; $$('.qt button', row).forEach(function (x) { x.disabled = false; x.setAttribute('aria-pressed', 'false'); }); });
-  $('#qCheck').hidden = false; $('#qSwap').hidden = true; $('#qReset').hidden = true;
-  qStatus();
-}
 
 document.addEventListener('DOMContentLoaded', function () {
   $('#convIn') && $('#convIn').addEventListener('input', function () { $('#convOut').textContent = '--' + this.value.trim().replace(/\//g, '-'); });
   if ($('#convOut')) $('#convOut').textContent = '--' + $('#convIn').value.replace(/\//g, '-');
-  buildPlayground(); buildCatalog(); buildMeasures(); buildIcons(); buildGalleries(); buildA11y(); buildChain(); buildQuiz(); buildChecklist(); buildNav(); buildPalette();
+  buildPlayground(); buildCatalog(); buildMeasures(); buildIcons(); buildGalleries(); buildA11y(); buildChain(); buildChecklist(); buildNav(); buildPalette();
   applyAll();
   if (PRINT) { $$('.pane').forEach(function (p) { p.hidden = false; }); document.fonts && document.fonts.ready.then(function () { setTimeout(function () { document.documentElement.setAttribute('data-ready', '1'); }, 600); }); }
 });
